@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Whale Mountain</title>
-    <link>http://whalem.net/categories/</link>
+    <link>https://whalem.net/categories/</link>
     <description>Recent content in Categories on Whale Mountain</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
-    <copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><atom:link href="http://whalem.net/categories/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><atom:link href="https://whalem.net/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

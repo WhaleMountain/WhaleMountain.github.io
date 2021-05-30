@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dockerfile on Whale Mountain</title>
-    <link>http://whalem.net/tags/dockerfile/</link>
+    <link>https://whalem.net/tags/dockerfile/</link>
     <description>Recent content in Dockerfile on Whale Mountain</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
     <copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright>
-    <lastBuildDate>Sun, 14 Mar 2021 13:13:16 +0900</lastBuildDate><atom:link href="http://whalem.net/tags/dockerfile/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Mar 2021 13:13:16 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/dockerfile/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dockerfileのよく忘れる部分のメモ</title>
-      <link>http://whalem.net/post/2021-03/dockerfile-memo/</link>
+      <link>https://whalem.net/post/2021-03/dockerfile-memo/</link>
       <pubDate>Sun, 14 Mar 2021 13:13:16 +0900</pubDate>
       
-      <guid>http://whalem.net/post/2021-03/dockerfile-memo/</guid>
+      <guid>https://whalem.net/post/2021-03/dockerfile-memo/</guid>
       <description>DEBIAN_FRONTEND apt install時にインタラクティブな表示を無効にする。
 RUN DEBIAN_FRONTEND=noninteractive \  apt-get install -yMulti-Stage Build Multi-StageでCOPYする時の指定の仕方。
 FROMgolang:rc-alpine3.12 AS buildFROMalpine:3.12COPY --from=build /tmp/main /tmp/</description>

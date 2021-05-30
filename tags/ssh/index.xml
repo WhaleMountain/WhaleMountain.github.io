@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>SSH on Whale Mountain</title>
-    <link>http://whalem.net/tags/ssh/</link>
+    <link>https://whalem.net/tags/ssh/</link>
     <description>Recent content in SSH on Whale Mountain</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>jp</language>
     <copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright>
-    <lastBuildDate>Sat, 13 Mar 2021 17:09:30 +0900</lastBuildDate><atom:link href="http://whalem.net/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Mar 2021 17:09:30 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GiteaにSSH接続できるようにする</title>
-      <link>http://whalem.net/post/2021-03/gitea-ssh-push/</link>
+      <link>https://whalem.net/post/2021-03/gitea-ssh-push/</link>
       <pubDate>Sat, 13 Mar 2021 17:09:30 +0900</pubDate>
       
-      <guid>http://whalem.net/post/2021-03/gitea-ssh-push/</guid>
+      <guid>https://whalem.net/post/2021-03/gitea-ssh-push/</guid>
       <description>GiteaはDockerで作成したブリッジネットワークのIPアドレスを振ってNginxでリバースプロキシしてる。Dockerのブリッジドライバーのルールにより、そのブリッジないのコンテナ、もしくはDockerのホストからしかアクセスできない。SSH接続どうしようかなと思ってたのですが、ホスト側を踏み台にしたらいいのか。
 ということで、手元のPC側の~/.ssh/configを編集する。ProxyJumpによりホストを踏み台にできる(ﾌﾐﾌﾐ。
 Host gitea.whalem.net HostName [Container IP Address] User git IdentityFile [Private Key] ProxyJump docker-host Host docker-host HostName [Host Server IP Address] User user あとは、CloneしたりPushしたり。Gitea側にSSH Keyの登録も忘れずに。</description>

@@ -61,7 +61,7 @@
     <div class="main-content__date">
         <h4 id="date"> Published on &ensp;2021.05.30 18:54 </h4>
         
-        <h4 id="date"> Edited on &ensp;&ensp;&ensp;&ensp;2021.05.30 19:19 </h4>
+        <h4 id="date"> Edited on &ensp;&ensp;&ensp;&ensp;2021.05.30 19:21 </h4>
         
     </div>
     <div class="main-content__title">
@@ -70,8 +70,8 @@
     <div class="main-content__article">
         <article id="content">
             <h4 id="移行">移行</h4>
-<p>ラズパイの<code>Docker</code>で自分用のWikiを動かしていたが、Github Pagesの誘惑に負けたので移行する。</p>
-<p>Github Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。</p>
+<p>ラズパイの<code>Docker</code>で自分用のWikiを動かしていたが、Github Pagesの誘惑に負けたので移行する。<br>
+Github Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。</p>
 <h4 id="手順">手順</h4>
 <ol>
 <li><strong>Username.github.io</strong> のリポジトリを作成する</li>
@@ -121,8 +121,8 @@
           <span style="color:#f92672">publish_dir</span>: <span style="color:#ae81ff">./pages/public</span>
           <span style="color:#f92672">deploy_key</span>: <span style="color:#ae81ff">${{ secrets.ACTIONS_DEPLOY_KEY }}</span>
           <span style="color:#f92672">cname</span>: <span style="color:#ae81ff">whalem.net</span>
-</code></pre></div><p><code>paths</code>を設定することで、設定したパス(<code>pages/**</code>)に変更があった場合にGithub Actionが動くようになる。(参考: <a href="https://docs.github.com/ja/actions/reference/workflow-syntax-for-github-actions">GitHub Actionsのワークフロー構文</a>)</p>
-<p>また、ソース用のリポジトリに旧構成のバックアップがあるため、Build時にHugoのソースがあるディレクトリに<code>working-directory</code>で移動する。</p>
+</code></pre></div><p><code>paths</code>を設定することで、設定したパス(<code>pages/**</code>)に変更があった場合にGithub Actionが動くようになる。(参考: <a href="https://docs.github.com/ja/actions/reference/workflow-syntax-for-github-actions">GitHub Actionsのワークフロー構文</a>)<br>
+また、ソース用のリポジトリに旧構成のバックアップがあるため、Build時にHugoのソースがあるディレクトリに<code>working-directory</code>で移動する。</p>
 <h4 id="reference">Reference</h4>
 <ul>
 <li><a href="https://zenn.dev/nikaera/articles/hugo-github-actions-for-github-pages">Hugo + GitHub Pages + GitHub Actions で独自ドメインのウェブサイトを構築する</a></li>

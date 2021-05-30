@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://whalem.net/tags/2021-05/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
+    <loc>https://whalem.net/tags/github-pages/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
+    <loc>https://whalem.net/tags/hugo/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
+    <loc>https://whalem.net/post/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
+    <loc>https://whalem.net/tags/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
+    <loc>https://whalem.net/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
+    <loc>https://whalem.net/post/2021-05/migrating-mywiki-to-github-pages/</loc>
+    <lastmod>2021-05-30T19:15:11+09:00</lastmod>
+  </url><url>
     <loc>https://whalem.net/tags/2021-03/</loc>
     <lastmod>2021-05-30T16:15:08+09:00</lastmod>
   </url><url>
@@ -12,15 +33,6 @@
     <lastmod>2021-05-30T16:15:08+09:00</lastmod>
   </url><url>
     <loc>https://whalem.net/post/2021-03/dockerfile-memo/</loc>
-    <lastmod>2021-05-30T16:15:08+09:00</lastmod>
-  </url><url>
-    <loc>https://whalem.net/post/</loc>
-    <lastmod>2021-05-30T16:15:08+09:00</lastmod>
-  </url><url>
-    <loc>https://whalem.net/tags/</loc>
-    <lastmod>2021-05-30T16:15:08+09:00</lastmod>
-  </url><url>
-    <loc>https://whalem.net/</loc>
     <lastmod>2021-05-30T16:15:08+09:00</lastmod>
   </url><url>
     <loc>https://whalem.net/tags/gitea/</loc>

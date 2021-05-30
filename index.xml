@@ -62,7 +62,8 @@ Initialized empty Git repository in /drone/src/.git/ + git fetch origin +refs/he
       
       <guid>https://whalem.net/about/</guid>
       <description>自分用のWiki的なやつを書く。
-構成   Server
+Raspberry Pi から Github Pages に移行しました！
+新構成  Github Pages Hugo  Theme, hugo-theme-yuki    旧構成   Server
  Raspberry Pi 3B+    Software and Application etc
  Docker Nginx Hugo Gitea Drone    Hugo theme
  hugo-theme-yuki    配信の流れ  Giteaにプッシュする DroneでHuboビルドする Nginxで配信する 以上  </description>

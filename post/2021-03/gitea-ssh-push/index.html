@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        
+        Whale Mountain
+        
+    </title>
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <link rel='icon' type='image/x-icon' href="http://whalem.net/images/wm.png" />
+    <link rel="apple-touch-icon" href="http://whalem.net/images/wm.png"><link rel="stylesheet" href="http://whalem.net/scss/style.css">
+    
+    <link rel="stylesheet" href="http://whalem.net/scss/monokai-sublime.min.css">
+    <script src="http://whalem.net/js/highlight.min.js"></script>
+    <link rel="stylesheet" href="http://whalem.net/scss/highlight.css">
+    
+    <link rel="stylesheet" href="http://whalem.net/scss/custom.css">
+    
+    
+    
+    <meta name="generator" content="Hugo 0.83.1" /></head>
+
+
+<body>
+<div class="header">
+    <div class="site-logo__wrap">
+        <div id="site-button">
+            <div></div>
+        </div>
+        
+        <div class=' site-logo '>
+            <a href="http://whalem.net/"><img src="http://whalem.net/images/wm.png" /></a>
+        </div>
+    </div>
+    
+<div class=' site-nav u-font ' id="nav-bar">
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/" >HOME</a>
+    </div>
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/post" >POST</a>
+    </div>
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/about" >ABOUT</a>
+    </div>
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/tags/" >TAGS</a>
+    </div>
+    
+</div>
+
+</div>
+<div class="main">
+
+<div class="main-content">
+    <div class="main-content__date">
+        <h4 id="date"> Published on &ensp;2021.03.13 17:09 </h4>
+        
+        <h4 id="date"> Edited on &ensp;&ensp;&ensp;&ensp;2021.05.30 16:15 </h4>
+        
+    </div>
+    <div class="main-content__title">
+        <h1 id="title">GiteaにSSH接続できるようにする</h1>
+    </div>
+    <div class="main-content__article">
+        <article id="content">
+            <p>GiteaはDockerで作成したブリッジネットワークのIPアドレスを振ってNginxでリバースプロキシしてる。Dockerのブリッジドライバーのルールにより、そのブリッジないのコンテナ、もしくはDockerのホストからしかアクセスできない。SSH接続どうしようかなと思ってたのですが、ホスト側を踏み台にしたらいいのか。</p>
+<p>ということで、手元のPC側の<code>~/.ssh/config</code>を編集する。<code>ProxyJump</code>によりホストを踏み台にできる(ﾌﾐﾌﾐ。</p>
+<pre><code>Host gitea.whalem.net
+  HostName [Container IP Address]
+  User git
+  IdentityFile [Private Key]
+  ProxyJump docker-host
+
+Host docker-host
+  HostName [Host Server IP Address]
+  User user
+</code></pre><p>あとは、CloneしたりPushしたり。Gitea側に<strong>SSH Keyの登録</strong>も忘れずに。</p>
+
+        </article>
+    </div>
+    <div class="main-content__tags u-font">
+        
+        
+        <span><a href="http://whalem.net/tags/2021-03">2021-03</a></span>
+        
+        <span><a href="http://whalem.net/tags/gitea">Gitea</a></span>
+        
+        <span><a href="http://whalem.net/tags/ssh">SSH</a></span>
+        
+        <span><a href="http://whalem.net/tags/proxyjump">ProxyJump</a></span>
+        
+        
+    </div>
+</div>
+<div class="main-profile">
+    <div class="main-profile__avatar">
+        
+            <img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4">
+        
+    </div>
+    <div class="main-profile__body">
+        <div class="main-profile__author">
+            
+            <span> Whale Mountain </span>
+            
+        </div>
+        <div class="main-profile__description">
+            
+            <p> Tofu on fire :) </p>
+            
+        </div>
+    </div>
+</div>
+<div class="main-line"></div>
+<div class="main-pn">
+    
+    <a class="previous" href="http://whalem.net/post/2021-03/docker-on-raspberrypi/">
+        <div class="pn-dec"></div>
+        <div class="pn-els">
+            <div class="pn-el__1"> 2021.03.13 00:50 </div>
+            <div class="pn-el__2"> Raspberry PiにDocker環境のインストール </div>
+        </div>
+    </a>
+    
+    
+    <a class="next" href="http://whalem.net/post/2021-03/dockerfile-memo/">
+        <div class="pn-dec"></div>
+        <div class="pn-els">
+            <div class="pn-el__1"> 2021.03.14 13:13 </div>
+            <div class="pn-el__2"> Dockerfileのよく忘れる部分のメモ </div>
+        </div>
+    </a>
+    
+</div>
+
+</div>
+<div class="footer">
+    <div class="copyright-wrap">
+        <p class="copyright u-font">
+            © 2021 Whale Mountain. Theme yuki. Powered by Hugo.
+        </p>
+    </div>
+</div>
+</body>
+<script src="http://whalem.net/js/page.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+

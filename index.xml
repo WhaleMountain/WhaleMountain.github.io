@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Whale Mountain</title>
+    <link>http://whalem.net/</link>
+    <description>Recent content on Whale Mountain</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>jp</language>
+    <copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright>
+    <lastBuildDate>Sun, 14 Mar 2021 13:13:16 +0900</lastBuildDate><atom:link href="http://whalem.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dockerfileのよく忘れる部分のメモ</title>
+      <link>http://whalem.net/post/2021-03/dockerfile-memo/</link>
+      <pubDate>Sun, 14 Mar 2021 13:13:16 +0900</pubDate>
+      
+      <guid>http://whalem.net/post/2021-03/dockerfile-memo/</guid>
+      <description>DEBIAN_FRONTEND apt install時にインタラクティブな表示を無効にする。
+RUN DEBIAN_FRONTEND=noninteractive \  apt-get install -yMulti-Stage Build Multi-StageでCOPYする時の指定の仕方。
+FROMgolang:rc-alpine3.12 AS buildFROMalpine:3.12COPY --from=build /tmp/main /tmp/</description>
+    </item>
+    
+    <item>
+      <title>GiteaにSSH接続できるようにする</title>
+      <link>http://whalem.net/post/2021-03/gitea-ssh-push/</link>
+      <pubDate>Sat, 13 Mar 2021 17:09:30 +0900</pubDate>
+      
+      <guid>http://whalem.net/post/2021-03/gitea-ssh-push/</guid>
+      <description>GiteaはDockerで作成したブリッジネットワークのIPアドレスを振ってNginxでリバースプロキシしてる。Dockerのブリッジドライバーのルールにより、そのブリッジないのコンテナ、もしくはDockerのホストからしかアクセスできない。SSH接続どうしようかなと思ってたのですが、ホスト側を踏み台にしたらいいのか。
+ということで、手元のPC側の~/.ssh/configを編集する。ProxyJumpによりホストを踏み台にできる(ﾌﾐﾌﾐ。
+Host gitea.whalem.net HostName [Container IP Address] User git IdentityFile [Private Key] ProxyJump docker-host Host docker-host HostName [Host Server IP Address] User user あとは、CloneしたりPushしたり。Gitea側にSSH Keyの登録も忘れずに。</description>
+    </item>
+    
+    <item>
+      <title>Raspberry PiにDocker環境のインストール</title>
+      <link>http://whalem.net/post/2021-03/docker-on-raspberrypi/</link>
+      <pubDate>Sat, 13 Mar 2021 00:50:55 +0900</pubDate>
+      
+      <guid>http://whalem.net/post/2021-03/docker-on-raspberrypi/</guid>
+      <description>Dockerのインストール 公式ドキュメントに従っても良いが、インストール用のスクリプトがあるのでそれを使う。
+$ curl -fsSL https://get.docker.com -o install-docker.sh $ sh ./install-docker.sh 簡単だね。
+docker-composeのインストール docker-composeのリポジトリのリリースにはarm用のバイナリはないので、ソースからビルドを行う。
+$ git clone https://github.com/docker/compose.git $ cd compose $ git checkout 1.27.4 $ ./script/build/linux しばし待つ。dist下にバイナリが吐かれていれば成功。あとは、/usr/local/binにコピって終了。
+$ ls dist/ docker-compose-linux-aarch64 $ cp dist/dockeer-compose /usr/local/bin/docker-compose $ chown root:root /usr/local/bin/docker-compose $ chmod 755 /usr/local/bin/docker-compose $ docker-compose version docker-compose version 1.27.4, build 40524192 docker-py version: 4.3.1 CPython version: 3.7.7 OpenSSL version: OpenSSL 1.1.0l 10 Sep 2019 Version 1.28.x からビルド時のDockerfileとscript/build/linuxの中身が変わり、今回の環境ではバイナリが吐かれなかった。ビルドは成功してるのにね。面倒なので1.27.4を使用する。</description>
+    </item>
+    
+    <item>
+      <title>DroneのカスタムDNS設定</title>
+      <link>http://whalem.net/post/2021-03/drone-network-setting/</link>
+      <pubDate>Wed, 10 Mar 2021 12:58:54 +0900</pubDate>
+      
+      <guid>http://whalem.net/post/2021-03/drone-network-setting/</guid>
+      <description>自宅の環境でGitea/Droneを構築していたが、CI時にGiteaからリポジトリをCloneできない。ドメインに接続できないと。自宅のLANからWAN側のIPにはアクセスできないので、内部DNSとしてUnboundを構築した。
+Initialized empty Git repository in /drone/src/.git/ + git fetch origin +refs/heads/master: fatal: unable to access &#39;http://gitea.whalem.net/whalem/drone_ci_test.git/&#39;: Failed to connect to gitea.whalem.net port 80: Operation timed out DNSを構築したので、Drone Runnerへ設定したが、同じようにFailed to connect to gitea.whalem.net port 80: Operation timed outとなる。Pingしてみると。
++ ping -c 4 gitea.whalem.net PING gitea.whalem.net (&amp;lt;WAN_IP&amp;gt;): 56 data bytes 64 bytes from &amp;lt;WAN_IP&amp;gt;: seq=0 ttl=254 time=0.890 ms あらら。Runnerに設定したけど、Pipelineの処理は別コンテナが作成され実行されるので、Runnerに設定しても意味ないと。Droneが作成するコンテナへDNSの設定方法を調べたけど、あまり良さそうな解決策は見つからなかったので、下の方法をとる。
+ Specify a host or a custom dns in drone-git image  /etc/docker/daemon.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://whalem.net/about/</link>
+      <pubDate>Tue, 09 Mar 2021 21:10:32 +0900</pubDate>
+      
+      <guid>http://whalem.net/about/</guid>
+      <description>自分用のWiki的なやつを書く。
+構成   Server
+ Raspberry Pi 3B+    Software and Application etc
+ Docker Nginx Hugo Gitea Drone    Hugo theme
+ hugo-theme-yuki    配信の流れ  Giteaにプッシュする DroneでHuboビルドする Nginxで配信する 以上  </description>
+    </item>
+    
+    <item>
+      <title>The first</title>
+      <link>http://whalem.net/post/2021-03/first-post/</link>
+      <pubDate>Tue, 09 Mar 2021 21:02:51 +0900</pubDate>
+      
+      <guid>http://whalem.net/post/2021-03/first-post/</guid>
+      <description>Hello  Hello, World!!  </description>
+    </item>
+    
+  </channel>
+</rss>

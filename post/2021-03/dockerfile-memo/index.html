@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        
+        Whale Mountain
+        
+    </title>
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <link rel='icon' type='image/x-icon' href="http://whalem.net/images/wm.png" />
+    <link rel="apple-touch-icon" href="http://whalem.net/images/wm.png"><link rel="stylesheet" href="http://whalem.net/scss/style.css">
+    
+    <link rel="stylesheet" href="http://whalem.net/scss/monokai-sublime.min.css">
+    <script src="http://whalem.net/js/highlight.min.js"></script>
+    <link rel="stylesheet" href="http://whalem.net/scss/highlight.css">
+    
+    <link rel="stylesheet" href="http://whalem.net/scss/custom.css">
+    
+    
+    
+    <meta name="generator" content="Hugo 0.83.1" /></head>
+
+
+<body>
+<div class="header">
+    <div class="site-logo__wrap">
+        <div id="site-button">
+            <div></div>
+        </div>
+        
+        <div class=' site-logo '>
+            <a href="http://whalem.net/"><img src="http://whalem.net/images/wm.png" /></a>
+        </div>
+    </div>
+    
+<div class=' site-nav u-font ' id="nav-bar">
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/" >HOME</a>
+    </div>
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/post" >POST</a>
+    </div>
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/about" >ABOUT</a>
+    </div>
+    
+    <div class="site-nav__wrap">
+        <a class="site-nav__el" href="/tags/" >TAGS</a>
+    </div>
+    
+</div>
+
+</div>
+<div class="main">
+
+<div class="main-content">
+    <div class="main-content__date">
+        <h4 id="date"> Published on &ensp;2021.03.14 13:13 </h4>
+        
+        <h4 id="date"> Edited on &ensp;&ensp;&ensp;&ensp;2021.05.30 16:15 </h4>
+        
+    </div>
+    <div class="main-content__title">
+        <h1 id="title">Dockerfileのよく忘れる部分のメモ</h1>
+    </div>
+    <div class="main-content__article">
+        <article id="content">
+            <h4 id="debian_frontend">DEBIAN_FRONTEND</h4>
+<p><code>apt install</code>時にインタラクティブな表示を無効にする。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">RUN</span> DEBIAN_FRONTEND<span style="color:#f92672">=</span>noninteractive <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    apt-get install -y<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><h4 id="multi-stage-build">Multi-Stage Build</h4>
+<p><a href="https://docs.docker.com/develop/develop-images/multistage-build/">Multi-Stage</a>で<code>COPY</code>する時の指定の仕方。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> golang:rc-alpine3.12 AS build</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> alpine:3.12</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /tmp/main /tmp/<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div>
+        </article>
+    </div>
+    <div class="main-content__tags u-font">
+        
+        
+        <span><a href="http://whalem.net/tags/2021-03">2021-03</a></span>
+        
+        <span><a href="http://whalem.net/tags/docker">Docker</a></span>
+        
+        <span><a href="http://whalem.net/tags/dockerfile">Dockerfile</a></span>
+        
+        
+    </div>
+</div>
+<div class="main-profile">
+    <div class="main-profile__avatar">
+        
+            <img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4">
+        
+    </div>
+    <div class="main-profile__body">
+        <div class="main-profile__author">
+            
+            <span> Whale Mountain </span>
+            
+        </div>
+        <div class="main-profile__description">
+            
+            <p> Tofu on fire :) </p>
+            
+        </div>
+    </div>
+</div>
+<div class="main-line"></div>
+<div class="main-pn">
+    
+    <a class="previous" href="http://whalem.net/post/2021-03/gitea-ssh-push/">
+        <div class="pn-dec"></div>
+        <div class="pn-els">
+            <div class="pn-el__1"> 2021.03.13 17:09 </div>
+            <div class="pn-el__2"> GiteaにSSH接続できるようにする </div>
+        </div>
+    </a>
+    
+    
+</div>
+
+</div>
+<div class="footer">
+    <div class="copyright-wrap">
+        <p class="copyright u-font">
+            © 2021 Whale Mountain. Theme yuki. Powered by Hugo.
+        </p>
+    </div>
+</div>
+</body>
+<script src="http://whalem.net/js/page.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+

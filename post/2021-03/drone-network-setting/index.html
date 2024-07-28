@@ -1,175 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>
-        
-        Whale Mountain
-        
-    </title>
-    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
-    <link rel='icon' type='image/x-icon' href="https://whalem.net/images/wm.png" />
-    <link rel="apple-touch-icon" href="https://whalem.net/images/wm.png"><link rel="stylesheet" href="https://whalem.net/scss/style.css">
-    
-    <link rel="stylesheet" href="https://whalem.net/scss/monokai-sublime.min.css">
-    <script src="https://whalem.net/js/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://whalem.net/scss/highlight.css">
-    
-    <link rel="stylesheet" href="https://whalem.net/scss/custom.css">
-    
-    
-    
-    <meta name="generator" content="Hugo 0.83.1" /></head>
-
-
-<body>
-<div class="header">
-    <div class="site-logo__wrap">
-        <div id="site-button">
-            <div></div>
-        </div>
-        
-        <div class=' site-logo '>
-            <a href="https://whalem.net/"><img src="https://whalem.net/images/wm.png" /></a>
-        </div>
-    </div>
-    
-<div class=' site-nav u-font ' id="nav-bar">
-    
-    <div class="site-nav__wrap">
-        <a class="site-nav__el" href="/" >HOME</a>
-    </div>
-    
-    <div class="site-nav__wrap">
-        <a class="site-nav__el" href="/post" >POST</a>
-    </div>
-    
-    <div class="site-nav__wrap">
-        <a class="site-nav__el" href="/about" >ABOUT</a>
-    </div>
-    
-    <div class="site-nav__wrap">
-        <a class="site-nav__el" href="/tags/" >TAGS</a>
-    </div>
-    
-</div>
-
-</div>
-<div class="main">
-
-<div class="main-content">
-    <div class="main-content__date">
-        <h4 id="date"> Published on &ensp;2021.03.10 12:58 </h4>
-        
-        <h4 id="date"> Edited on &ensp;&ensp;&ensp;&ensp;2021.05.30 16:15 </h4>
-        
-    </div>
-    <div class="main-content__title">
-        <h1 id="title">DroneのカスタムDNS設定</h1>
-    </div>
-    <div class="main-content__article">
-        <article id="content">
-            <p>自宅の環境でGitea/Droneを構築していたが、CI時にGiteaからリポジトリをCloneできない。ドメインに接続できないと。自宅のLANからWAN側のIPにはアクセスできないので、内部DNSとして<a href="https://unbound.jp/unbound/">Unbound</a>を構築した。</p>
-<pre><code>Initialized empty Git repository in /drone/src/.git/
+<!doctype html><html><head><meta charset=utf-8><title>Whale Mountain
+</title><meta name=viewport id=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href=https://whalem.net/images/wm.png><link rel=apple-touch-icon href=https://whalem.net/images/wm.png><link rel=stylesheet href=https://whalem.net/scss/style.css><link rel=stylesheet href=https://whalem.net/scss/monokai-sublime.min.css><script src=https://whalem.net/js/highlight.min.js></script><link rel=stylesheet href=https://whalem.net/scss/highlight.css><link rel=stylesheet href=https://whalem.net/scss/custom.css><meta name=generator content="Hugo 0.129.0"></head><body><div class=header><div class=site-logo__wrap><div id=site-button><div></div></div><div class=site-logo><a href=https://whalem.net/><img src=https://whalem.net/images/wm.png></a></div></div><div class='site-nav u-font' id=nav-bar><div class=site-nav__wrap><a class=site-nav__el href=/>HOME</a></div><div class=site-nav__wrap><a class=site-nav__el href=/post>POST</a></div><div class=site-nav__wrap><a class=site-nav__el href=/about>ABOUT</a></div><div class=site-nav__wrap><a class=site-nav__el href=/tags/>TAGS</a></div></div></div><div class=main><div class=main-content><div class=main-content__date><h4 id=date>Published on &ensp;2021.03.10 12:58</h4><h4 id=date>Edited on &ensp;&ensp;&ensp;&ensp;2021.05.30 16:15</h4></div><div class=main-content__title><h1 id=title>DroneのカスタムDNS設定</h1></div><div class=main-content__article><article id=content><p>自宅の環境でGitea/Droneを構築していたが、CI時にGiteaからリポジトリをCloneできない。ドメインに接続できないと。自宅のLANからWAN側のIPにはアクセスできないので、内部DNSとして<a href=https://unbound.jp/unbound/>Unbound</a>を構築した。</p><pre tabindex=0><code>Initialized empty Git repository in /drone/src/.git/
 + git fetch origin +refs/heads/master:
-fatal: unable to access 'http://gitea.whalem.net/whalem/drone_ci_test.git/': Failed to connect to gitea.whalem.net port 80: Operation timed out
-</code></pre><p>DNSを構築したので、Drone Runnerへ設定したが、同じように<code>Failed to connect to gitea.whalem.net port 80: Operation timed out</code>となる。Pingしてみると。</p>
-<pre><code>+ ping -c 4 gitea.whalem.net
+fatal: unable to access &#39;http://gitea.whalem.net/whalem/drone_ci_test.git/&#39;: Failed to connect to gitea.whalem.net port 80: Operation timed out
+</code></pre><p>DNSを構築したので、Drone Runnerへ設定したが、同じように<code>Failed to connect to gitea.whalem.net port 80: Operation timed out</code>となる。Pingしてみると。</p><pre tabindex=0><code>+ ping -c 4 gitea.whalem.net
 PING gitea.whalem.net (&lt;WAN_IP&gt;): 56 data bytes
 64 bytes from &lt;WAN_IP&gt;: seq=0 ttl=254 time=0.890 ms
-</code></pre><p>あらら。Runnerに設定したけど、Pipelineの処理は別コンテナが作成され実行されるので、Runnerに設定しても意味ないと。Droneが作成するコンテナへDNSの設定方法を調べたけど、あまり良さそうな解決策は見つからなかったので、下の方法をとる。</p>
-<ul>
-<li><a href="https://discourse.drone.io/t/specify-a-host-or-a-custom-dns-in-drone-git-image/308">Specify a host or a custom dns in drone-git image</a></li>
-</ul>
-<p><code>/etc/docker/daemon.json</code>に内部DNSのアドレスを追加する。<code>daemon.json</code>は無ければ新しく作成する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;dns&#34;</span>: [<span style="color:#e6db74">&#34;CUSTOM_DNS&#34;</span>, <span style="color:#e6db74">&#34;8.8.8.8&#34;</span>]
-}
-</code></pre></div><p><code>daemon.json</code>を編集後にDocker daemonを再起動する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ systemctl restart docker.service
-</code></pre></div><p>これで、コンテナは内部DNSを参照する。あとは、いつも通りに。</p>
-<pre><code>Initialized empty Git repository in /drone/src/.git/
+</code></pre><p>あらら。Runnerに設定したけど、Pipelineの処理は別コンテナが作成され実行されるので、Runnerに設定しても意味ないと。Droneが作成するコンテナへDNSの設定方法を調べたけど、あまり良さそうな解決策は見つからなかったので、下の方法をとる。</p><ul><li><a href=https://discourse.drone.io/t/specify-a-host-or-a-custom-dns-in-drone-git-image/308>Specify a host or a custom dns in drone-git image</a></li></ul><p><code>/etc/docker/daemon.json</code>に内部DNSのアドレスを追加する。<code>daemon.json</code>は無ければ新しく作成する。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;dns&#34;</span>: [<span style=color:#e6db74>&#34;CUSTOM_DNS&#34;</span>, <span style=color:#e6db74>&#34;8.8.8.8&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><code>daemon.json</code>を編集後にDocker daemonを再起動する。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ systemctl restart docker.service
+</span></span></code></pre></div><p>これで、コンテナは内部DNSを参照する。あとは、いつも通りに。</p><pre tabindex=0><code>Initialized empty Git repository in /drone/src/.git/
 + git fetch origin +refs/heads/master:
 From http://gitea.whalem.net/whalem/drone_ci_test
  * branch            master     -&gt; FETCH_HEAD
  * [new branch]      master     -&gt; origin/master
 + git checkout 7595bbbcdbb63575efda8795510067620ebbd148 -b master
-Already on 'master'
-</code></pre><p>ヘアピンNATできるルータが欲しい&hellip;。</p>
-<h2 id="ネットワーク設定">ネットワーク設定</h2>
-<p>Droneが作成するコンテナのネットワークを指定したい場合は、<a href="https://docs.drone.io/runner/docker/configuration/reference/drone-runner-networks/">DRONE_RUNNER_NETWORKS</a>を設定する。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">service</span>:
-    <span style="color:#f92672">server</span>:
-        <span style="color:#ae81ff">...</span>
-    <span style="color:#f92672">runner</span>:
-        <span style="color:#ae81ff">...</span>
-        <span style="color:#f92672">environment</span>:
-            - <span style="color:#ae81ff">DRONE_RUNNER_NETWORKS=mynet_bridge</span>
-</code></pre></div>
-        </article>
-    </div>
-    <div class="main-content__tags u-font">
-        
-        
-        <span><a href="https://whalem.net/tags/2021-03">2021-03</a></span>
-        
-        <span><a href="https://whalem.net/tags/drone">Drone</a></span>
-        
-        <span><a href="https://whalem.net/tags/docker">Docker</a></span>
-        
-        
-    </div>
-</div>
-<div class="main-profile">
-    <div class="main-profile__avatar">
-        
-            <img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4">
-        
-    </div>
-    <div class="main-profile__body">
-        <div class="main-profile__author">
-            
-            <span> Whale Mountain </span>
-            
-        </div>
-        <div class="main-profile__description">
-            
-            <p> Tofu on fire :) </p>
-            
-        </div>
-    </div>
-</div>
-<div class="main-line"></div>
-<div class="main-pn">
-    
-    <a class="previous" href="https://whalem.net/post/2021-03/first-post/">
-        <div class="pn-dec"></div>
-        <div class="pn-els">
-            <div class="pn-el__1"> 2021.03.09 21:02 </div>
-            <div class="pn-el__2"> The first </div>
-        </div>
-    </a>
-    
-    
-    <a class="next" href="https://whalem.net/post/2021-03/docker-on-raspberrypi/">
-        <div class="pn-dec"></div>
-        <div class="pn-els">
-            <div class="pn-el__1"> 2021.03.13 00:50 </div>
-            <div class="pn-el__2"> Raspberry PiにDocker環境のインストール </div>
-        </div>
-    </a>
-    
-</div>
-
-</div>
-<div class="footer">
-    <div class="copyright-wrap">
-        <p class="copyright u-font">
-            © 2021 Whale Mountain. Theme yuki. Powered by Hugo.
-        </p>
-    </div>
-</div>
-</body>
-<script src="https://whalem.net/js/page.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
+Already on &#39;master&#39;
+</code></pre><p>ヘアピンNATできるルータが欲しい&mldr;。</p><h2 id=ネットワーク設定>ネットワーク設定</h2><p>Droneが作成するコンテナのネットワークを指定したい場合は、<a href=https://docs.drone.io/runner/docker/configuration/reference/drone-runner-networks/>DRONE_RUNNER_NETWORKS</a>を設定する。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>service</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>server</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>...</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>runner</span>:
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>...</span>
+</span></span><span style=display:flex><span>        <span style=color:#f92672>environment</span>:
+</span></span><span style=display:flex><span>            - <span style=color:#ae81ff>DRONE_RUNNER_NETWORKS=mynet_bridge</span>
+</span></span></code></pre></div></article></div><div class="main-content__tags u-font"><span><a href=https://whalem.net/tags/2021-03>2021-03</a></span>
+<span><a href=https://whalem.net/tags/drone>Drone</a></span>
+<span><a href=https://whalem.net/tags/docker>Docker</a></span></div></div><div class=main-profile><div class=main-profile__avatar><img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4"></div><div class=main-profile__body><div class=main-profile__author><span>Whale Mountain</span></div><div class=main-profile__description><p>Tofu on fire :)</p></div></div></div><div class=main-line></div><div class=main-pn><a class=previous href=https://whalem.net/post/2021-03/first-post/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2021.03.09 21:02</div><div class=pn-el__2>The first</div></div></a><a class=next href=https://whalem.net/post/2021-03/docker-on-raspberrypi/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2021.03.13 00:50</div><div class=pn-el__2>Raspberry PiにDocker環境のインストール</div></div></a></div></div><div class=footer><div class=copyright-wrap><p class="copyright u-font">© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</p></div></div></body><script src=https://whalem.net/js/page.js></script><script>hljs.initHighlightingOnLoad()</script>

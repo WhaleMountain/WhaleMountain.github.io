@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024-07 on Whale Mountain</title><link>https://whalem.net/tags/2024-07/</link><description>Recent content in 2024-07 on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sun, 28 Jul 2024 17:18:34 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/2024-07/index.xml" rel="self" type="application/rss+xml"/><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>久しぶりに更新 全然運用していなかったので、ブログを更新できるか確認していた。
+とりあえずやったことのメモ。
+Hugoの確認 GitHub Pages に移行したときの Hugo のバージョンは 0.83.0 だったけど、今は 0.129.0 になってた。
+とりあえずビルドできるか確認したら、エラーが。。
+parse failed: template: _default/list.html:4: function &amp;#34;sanitizeurl&amp;#34; not defined sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)
+baseUrl のシリアライズなので多分問題ないと思いたい。
+GitHub Actionsの更新 Yaml ファイルの中身を忘れているけど、まぁ使っているものは色々バージョンは上げとく。
+actions/checkout v2 &amp;gt; v4 peaceiris/actions-hugo v2 &amp;gt; v3 peaceiris/actions-gh-pages v3 &amp;gt; v4 あとはDeploy Keyの再設定
+GitHub Pages 用のリポジトリに Deploy keys を登録して、Markdown ファイルを置くリポジトリに Repository secrets を設定する。
+WhaleMountain.github.io Settings &amp;gt; Deploy kyes に公開鍵を登録 whalem Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets に秘密鍵を登録 鍵は 1Password で管理。あとはブログ更新しなくなったら Deploy keys の登録を削除する。</description></item></channel></rss>

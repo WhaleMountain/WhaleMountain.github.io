@@ -1,42 +1,41 @@
 <!doctype html><html><head><meta charset=utf-8><title>Whale Mountain
-</title><meta name=viewport id=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href=https://whalem.net/images/wm.png><link rel=apple-touch-icon href=https://whalem.net/images/wm.png><link rel=stylesheet href=https://whalem.net/scss/style.css><link rel=stylesheet href=https://whalem.net/scss/monokai-sublime.min.css><script src=https://whalem.net/js/highlight.min.js></script><link rel=stylesheet href=https://whalem.net/scss/highlight.css><link rel=stylesheet href=https://whalem.net/scss/custom.css><meta name=generator content="Hugo 0.131.0"></head><body><div class=header><div class=site-logo__wrap><div id=site-button><div></div></div><div class=site-logo><a href=https://whalem.net/><img src=https://whalem.net/images/wm.png></a></div></div><div class='site-nav u-font' id=nav-bar><div class=site-nav__wrap><a class=site-nav__el href=/>HOME</a></div><div class=site-nav__wrap><a class=site-nav__el href=/post>POST</a></div><div class=site-nav__wrap><a class=site-nav__el href=/about>ABOUT</a></div><div class=site-nav__wrap><a class=site-nav__el href=/tags/>TAGS</a></div></div></div><div class=main><div class=main-content><div class=main-content__date><h4 id=date>Published on &ensp;2021.05.30 18:54</h4><h4 id=date>Edited on &ensp;&ensp;&ensp;&ensp;2024.07.28 17:18</h4></div><div class=main-content__title><h1 id=title>ラズパイで動かしていたWikiをGitHub Pagesに移行した</h1></div><div class=main-content__article><article id=content><h4 id=移行>移行</h4><p>ラズパイの<code>Docker</code>で自分用のWikiを動かしていたが、GitHub Pagesの誘惑に負けたので移行する。<br>GitHub Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。</p><h4 id=手順>手順</h4><ol><li><strong>Username.github.io</strong> のリポジトリを作成する</li><li>上で作成したリポジトリに<a href=https://docs.github.com/ja/developers/overview/managing-deploy-keys#%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4%E3%82%AD%E3%83%BC>Deploy Key</a>を設定する</li><li>次にHugoなどの <strong>.md</strong> ファイルを置くリポジトリを作成する</li><li>1で作成したリポジトリにPushするために<a href=https://docs.github.com/ja/actions/reference/encrypted-secrets#%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%81%AE%E6%9A%97%E5%8F%B7%E5%8C%96%E3%81%95%E3%82%8C%E3%81%9F%E3%82%B7%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90>Secret Key</a>を設定する</li><li>GitHub Actionを設定し終了</li></ol><p>※ 2, 4で設定したKeyはMacOS上で<code>ssh-keygen</code>で作成したKeyを設定する。1には公開鍵(<code>.pub</code>)、3には秘密鍵を設定する。</p><h4 id=github-action>Github Action</h4><p>Hugo公式の<a href=https://gohugo.io/hosting-and-deployment/hosting-on-github/>Host on GitHub</a>を参考に作成する。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>name</span>: <span style=color:#ae81ff>github pages</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>on</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>push</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>branches</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#ae81ff>main </span> <span style=color:#75715e># Set a branch to deploy</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>paths</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#e6db74>&#39;pages/**&#39;</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>pull_request</span>:
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#f92672>jobs</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>deploy</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-20.04</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>steps</span>:
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v2</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>submodules</span>: <span style=color:#66d9ef>true</span>  <span style=color:#75715e># Fetch Hugo themes (true OR recursive)</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>fetch-depth</span>: <span style=color:#ae81ff>0</span>    <span style=color:#75715e># Fetch all history for .GitInfo and .Lastmod</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Setup Hugo</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>peaceiris/actions-hugo@v2</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>:
-</span></span><span style=display:flex><span>          <span style=color:#f92672>hugo-version</span>: <span style=color:#e6db74>&#39;latest&#39;</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>extended</span>: <span style=color:#66d9ef>true</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>hugo</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>working-directory</span>: <span style=color:#ae81ff>./pages</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Deploy</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>peaceiris/actions-gh-pages@v3</span>
-</span></span><span style=display:flex><span>        <span style=color:#f92672>with</span>: 
-</span></span><span style=display:flex><span>          <span style=color:#f92672>external_repository</span>: <span style=color:#ae81ff>WhaleMountain/WhaleMountain.github.io</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>publish_branch</span>: <span style=color:#ae81ff>main</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>publish_dir</span>: <span style=color:#ae81ff>./pages/public</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>deploy_key</span>: <span style=color:#ae81ff>${{ secrets.ACTIONS_DEPLOY_KEY }}</span>
-</span></span><span style=display:flex><span>          <span style=color:#f92672>cname</span>: <span style=color:#ae81ff>whalem.net</span>
-</span></span></code></pre></div><p><code>paths</code>を設定することで、設定したパス(<code>pages/**</code>)に変更があった場合にGitHub Actionが動くようになる。(参考: <a href=https://docs.github.com/ja/actions/reference/workflow-syntax-for-github-actions>GitHub Actionsのワークフロー構文</a>)<br>また、ソース用のリポジトリに旧構成のバックアップがあるため、Build時にHugoのソースがあるディレクトリに<code>working-directory</code>で移動する。</p><h4 id=reference>Reference</h4><ul><li><a href=https://zenn.dev/nikaera/articles/hugo-github-actions-for-github-pages>Hugo + GitHub Pages + GitHub Actions で独自ドメインのウェブサイトを構築する</a></li></ul></article></div><div class="main-content__tags u-font"><span><a href=https://whalem.net/tags/2021-05>2021-05</a></span>
+</title><meta name=viewport id=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href=https://whalem.net/images/wm.png><link rel=apple-touch-icon href=https://whalem.net/images/wm.png><link rel=stylesheet href=https://whalem.net/scss/style.css><link rel=stylesheet href=https://whalem.net/scss/monokai-sublime.min.css><script src=https://whalem.net/js/highlight.min.js></script><link rel=stylesheet href=https://whalem.net/scss/highlight.css><link rel=stylesheet href=https://whalem.net/scss/custom.css><meta name=generator content="Hugo 0.131.0"></head><body><div class=header><div class=site-logo__wrap><div id=site-button><div></div></div><div class=site-logo><a href=https://whalem.net/><img src=https://whalem.net/images/wm.png></a></div></div><div class='site-nav u-font' id=nav-bar><div class=site-nav__wrap><a class=site-nav__el href=/>HOME</a></div><div class=site-nav__wrap><a class=site-nav__el href=/post>POST</a></div><div class=site-nav__wrap><a class=site-nav__el href=/about>ABOUT</a></div><div class=site-nav__wrap><a class=site-nav__el href=/tags/>TAGS</a></div></div></div><div class=main><div class=main-content><div class=main-content__date><h4 id=date>Published on &ensp;2021.05.30 18:54</h4><h4 id=date>Edited on &ensp;&ensp;&ensp;&ensp;2024.08.11 23:35</h4></div><div class=main-content__title><h1 id=title>ラズパイで動かしていたWikiをGitHub Pagesに移行した</h1></div><div class=main-content__article><article id=content><h4 id=移行>移行</h4><p>ラズパイの<code>Docker</code>で自分用のWikiを動かしていたが、GitHub Pagesの誘惑に負けたので移行する。<br>GitHub Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。</p><h4 id=手順>手順</h4><ol><li><strong>Username.github.io</strong> のリポジトリを作成する</li><li>上で作成したリポジトリに<a href=https://docs.github.com/ja/developers/overview/managing-deploy-keys#%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4%E3%82%AD%E3%83%BC>Deploy Key</a>を設定する</li><li>次にHugoなどの <strong>.md</strong> ファイルを置くリポジトリを作成する</li><li>1で作成したリポジトリにPushするために<a href=https://docs.github.com/ja/actions/reference/encrypted-secrets#%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%81%AE%E6%9A%97%E5%8F%B7%E5%8C%96%E3%81%95%E3%82%8C%E3%81%9F%E3%82%B7%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90>Secret Key</a>を設定する</li><li>GitHub Actionを設定し終了</li></ol><p>※ 2, 4で設定したKeyはMacOS上で<code>ssh-keygen</code>で作成したKeyを設定する。1には公開鍵(<code>.pub</code>)、3には秘密鍵を設定する。</p><h4 id=github-action>Github Action</h4><p>Hugo公式の<a href=https://gohugo.io/hosting-and-deployment/hosting-on-github/>Host on GitHub</a>を参考に作成する。</p><pre tabindex=0><code>name: github pages
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy
+    paths:
+      - &#39;pages/**&#39;
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: &#39;latest&#39;
+          extended: true
+
+      - name: Build
+        run: hugo
+        working-directory: ./pages
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with: 
+          external_repository: WhaleMountain/WhaleMountain.github.io
+          publish_branch: main
+          publish_dir: ./pages/public
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          cname: whalem.net
+</code></pre><p><code>paths</code>を設定することで、設定したパス(<code>pages/**</code>)に変更があった場合にGitHub Actionが動くようになる。(参考: <a href=https://docs.github.com/ja/actions/reference/workflow-syntax-for-github-actions>GitHub Actionsのワークフロー構文</a>)<br>また、ソース用のリポジトリに旧構成のバックアップがあるため、Build時にHugoのソースがあるディレクトリに<code>working-directory</code>で移動する。</p><h4 id=reference>Reference</h4><ul><li><a href=https://zenn.dev/nikaera/articles/hugo-github-actions-for-github-pages>Hugo + GitHub Pages + GitHub Actions で独自ドメインのウェブサイトを構築する</a></li></ul></article></div><div class="main-content__tags u-font"><span><a href=https://whalem.net/tags/2021-05>2021-05</a></span>
 <span><a href=https://whalem.net/tags/github-pages>GitHub Pages</a></span>
 <span><a href=https://whalem.net/tags/hugo>Hugo</a></span></div></div><div class=main-profile><div class=main-profile__avatar><img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4"></div><div class=main-profile__body><div class=main-profile__author><span>Whale Mountain</span></div><div class=main-profile__description><p>Tofu on fire :)</p></div></div></div><div class=main-line></div><div class=main-pn><a class=previous href=https://whalem.net/post/2021-03/dockerfile-memo/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2021.03.14 13:13</div><div class=pn-el__2>Dockerfileのよく忘れる部分のメモ</div></div></a><a class=next href=https://whalem.net/post/2024-07/long-time-no-see/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2024.07.28 16:55</div><div class=pn-el__2>久しぶりに更新</div></div></a></div></div><div class=footer><div class=copyright-wrap><p class="copyright u-font">© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</p></div></div></body><script src=https://whalem.net/js/page.js></script><script>hljs.initHighlightingOnLoad()</script>

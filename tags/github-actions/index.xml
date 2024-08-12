@@ -2,7 +2,7 @@
 とりあえずやったことのメモ。
 Hugoの確認 GitHub Pages に移行したときの Hugo のバージョンは 0.83.0 だったけど、今は 0.129.0 になってた。
 とりあえずビルドできるか確認したら、エラーが。。
-parse failed: template: _default/list.html:4: function &amp;#34;sanitizeurl&amp;#34; not defined sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)
+parse failed: template: _default/list.html:4: function &amp;quot;sanitizeurl&amp;quot; not defined sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)
 baseUrl のシリアライズなので多分問題ないと思いたい。
 GitHub Actionsの更新 Yaml ファイルの中身を忘れているけど、まぁ使っているものは色々バージョンは上げとく。
 actions/checkout v2 &amp;gt; v4 peaceiris/actions-hugo v2 &amp;gt; v3 peaceiris/actions-gh-pages v3 &amp;gt; v4 あとはDeploy Keyの再設定

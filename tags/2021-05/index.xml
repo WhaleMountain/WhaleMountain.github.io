@@ -2,4 +2,4 @@
 GitHub Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。
 手順 Username.github.io のリポジトリを作成する 上で作成したリポジトリにDeploy Keyを設定する 次にHugoなどの .md ファイルを置くリポジトリを作成する 1で作成したリポジトリにPushするためにSecret Keyを設定する GitHub Actionを設定し終了 ※ 2, 4で設定したKeyはMacOS上でssh-keygenで作成したKeyを設定する。1には公開鍵(.pub)、3には秘密鍵を設定する。
 Github Action Hugo公式のHost on GitHubを参考に作成する。
-name: github pages on: push: branches: - main # Set a branch to deploy paths: - &amp;#39;pages/**&amp;#39; pull_request: jobs: deploy: runs-on: ubuntu-20.04 steps: - uses: actions/checkout@v2 with: submodules: true # Fetch Hugo themes (true OR recursive) fetch-depth: 0 # Fetch all history for .GitInfo and .</description></item></channel></rss>
+name: github pages on: push: branches: - main # Set a branch to deploy paths: - 'pages/**' pull_request: jobs: deploy: runs-on: ubuntu-20.04 steps: - uses: actions/checkout@v2 with: submodules: true # Fetch Hugo themes (true OR recursive) fetch-depth: 0 # Fetch all history for .GitInfo and .</description></item></channel></rss>

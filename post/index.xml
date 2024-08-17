@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Whale Mountain</title><link>https://whalem.net/post/</link><description>Recent content in Posts on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sat, 17 Aug 2024 17:20:41 +0900</lastBuildDate><atom:link href="https://whalem.net/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>下記コミットの内容についての記事です。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Whale Mountain</title><link>https://whalem.net/post/</link><description>Recent content in Posts on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sat, 17 Aug 2024 17:21:33 +0900</lastBuildDate><atom:link href="https://whalem.net/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。
+使用環境 Raspberry Pi 3B+ (多分) SDカードにイメージを書き込む Raspberry Pi Imager を利用して microSDカードにイメージを書き込みます。
+GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。
+簡単！！
+sudoの初期設定 デフォルトだと sudo の実行にパスワードが要求されない。sudoers.d 内にあるファイルを確認すると NOPASSWD が設定されている。
+デフォルトの設定 $ sudo cat /etc/sudoers.d/010_pi-nopasswd [ユーザー] ALL=(ALL) NOPASSWD: ALL 対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)
+$ sudo rm /etc/sudoers.d/010_pi-nopasswd 無線関連の設定 有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。
+/boot/overlays/README を見てフラグを確認して下記ファイルに書き込む。
+/boot/firmware/config.txt dtoverlay=disable-bt dtoverlay=disable-wifi 再起動後に ip a で wlan0 が表示されないことを確認する。
+IPアドレスの設定 Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。
+参考: Raspberry Pi OS のネットワーク設定 $ sudo nmcli connection modify 'Wired connection 1' ipv4.</description></item><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>下記コミットの内容についての記事です。
 update submodule and config.toml update highlightjs リンクの変更 テーマで使用されていた Highlight.js のバージョンが v9.13.1 でした。
 脆弱性の報告もあるのでバージョンを上げようと思いました。
 参考: highlight.js@9.13.1 vulnerabilities 公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。

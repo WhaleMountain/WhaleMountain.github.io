@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset=utf-8><title>Whale Mountain
+</title><meta name=viewport id=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href=https://whalem.net/images/wm.png><link rel=apple-touch-icon href=https://whalem.net/images/wm.png><link rel=stylesheet href=https://whalem.net/scss/style.css><link rel=stylesheet href=https://whalem.net/scss/monokai-sublime.min.css><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js></script><link rel=stylesheet href=https://whalem.net/scss/highlight.css><link rel=stylesheet href=https://whalem.net/scss/custom.css><meta name=generator content="Hugo 0.144.2"></head><body><div class=header><div class=site-logo__wrap><div id=site-button><div></div></div><div class=site-logo><a href=https://whalem.net/><img src=https://whalem.net/images/wm.png></a></div></div><div class='site-nav u-font' id=nav-bar><div class=site-nav__wrap><a class=site-nav__el href=/>HOME</a></div><div class=site-nav__wrap><a class=site-nav__el href=/post>POST</a></div><div class=site-nav__wrap><a class=site-nav__el href=/about>ABOUT</a></div><div class=site-nav__wrap><a class=site-nav__el href=/tags/>TAGS</a></div></div></div><div class=main><div class=main-content><div class=main-content__date><h4 id=date>Published on &ensp;2025.02.24 21:03</h4></div><div class=main-content__title><h1 id=title>AdGuard Homeの導入</h1></div><div class=main-content__article><article id=content><p>Raspberry PiにAdGuard Homeを導入したので設定内容をまとめる。</p><ul><li>使用環境<ul><li>Raspberry Pi 3B+ (多分)</li></ul></li></ul><h3 id=adguard-homeの起動>AdGuard Homeの起動</h3><p>Docker を使って Adguard Home を起動します。<br>作業用のディレクトリを作成し、<code>compose.yaml</code>を作成します。ポートは利用すもののみ設定します。</p><pre><code class=language-yaml>services:
+  adgaurd:
+    container_name: &quot;adguard-home&quot;
+    image: adguard/adguardhome:v0.107.57
+    restart: always
+    volumes:
+      - ./work:/opt/adguardhome/work
+      - ./conf:/opt/adguardhome/conf
+    ports:
+      - &quot;53:53/tcp&quot;
+      - &quot;53:53/udp&quot;
+      - &quot;80:80/tcp&quot;
+</code></pre><h3 id=ダッシュボードにアクセス>ダッシュボードにアクセス</h3><p>ブラウザから Adguard Home のダッシュボードにアクセスします。<code>http://ラズパイのHost名.local</code> を開きパスワード等を設定します。<br>設定 > DNS設定 > アップストリームDNSサーバー に <code>8.8.8.8</code> など好みのDNSを設定します。</p><ul><li>設定例</li></ul><pre><code class=language-txt>8.8.8.8
+8.8.4.4
+1.1.1.1
+1.0.0.1
+2001:4860:4860::8888
+2001:4860:4860::8844
+2606:4700:4700::1111
+2606:4700:4700::1001
+https://dns10.quad9.net/dns-query
+https://cloudflare-dns.com/dns-query
+</code></pre><p>あとは好みの設定をしたら終わりです。</p><h3 id=dnsの設定>DNSの設定</h3><p>ダッシュボードのセットアップガイドではコンテナ内のIPが表示されるので、ラズパイ側のIPを <code>ip a</code> などで確認します。<br>スマホやPCなどのDNS設定をするか、ルーターにDNS設定して利用してください。</p><h3 id=参考>参考</h3><ul><li><a href=https://github.com/AdguardTeam/AdGuardHome>AdGuard Home</a></li><li><a href=https://hub.docker.com/r/adguard/adguardhome>AdGuard Home - Docker</a></li><li><a href="https://developers.google.com/speed/public-dns/docs/using?hl=ja">Google Public DNS</a></li><li><a href=https://developers.cloudflare.com/1.1.1.1/ip-addresses/>1.1.1.1 (DNS Resolver)</a></li><li><a href=https://www.quad9.net/service/service-addresses-and-features/>quad9</a></li></ul></article></div><div class="main-content__tags u-font"><span><a href=https://whalem.net/tags/2025-02>2025-02</a></span>
+<span><a href=https://whalem.net/tags/adguard-home>AdGuard Home</a></span>
+<span><a href=https://whalem.net/tags/raspberry-pi>Raspberry Pi</a></span></div></div><div class=main-profile><div class=main-profile__avatar><img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4"></div><div class=main-profile__body><div class=main-profile__author><span>Whale Mountain</span></div><div class=main-profile__description><p>Tofu on fire :)</p></div></div></div><div class=main-line></div><div class=main-pn><a class=previous href=https://whalem.net/post/2024-08/raspi-init-setup/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2024.08.17 16:07</div><div class=pn-el__2>Raspberry Piの初期設定</div></div></a></div></div><div class=footer><div class=copyright-wrap><p class="copyright u-font">© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</p></div></div></body><script src=https://whalem.net/js/page.js></script><script>hljs.highlightAll()</script>

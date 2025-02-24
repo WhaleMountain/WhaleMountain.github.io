@@ -1,57 +1,352 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Whale Mountain</title><link>https://whalem.net/post/</link><description>Recent content in Posts on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sat, 17 Aug 2024 17:27:15 +0900</lastBuildDate><atom:link href="https://whalem.net/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。
-使用環境 Raspberry Pi 3B+ (多分) SDカードにイメージを書き込む Raspberry Pi Imager を利用して microSDカードにイメージを書き込みます。
-GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。簡単！！
-sudoの初期設定 デフォルトだと sudo の実行にパスワードが要求されない。sudoers.d 内にあるファイルを確認すると NOPASSWD が設定されている。
-デフォルトの設定 $ sudo cat /etc/sudoers.d/010_pi-nopasswd [ユーザー] ALL=(ALL) NOPASSWD: ALL 対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)
-$ sudo rm /etc/sudoers.d/010_pi-nopasswd 無線関連の設定 有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。
-/boot/overlays/README を見てフラグを確認して下記ファイルに書き込む。
-/boot/firmware/config.txt dtoverlay=disable-bt dtoverlay=disable-wifi 再起動後に ip a で wlan0 が表示されないことを確認する。
-IPアドレスの設定 Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。
-参考: Raspberry Pi OS のネットワーク設定 $ sudo nmcli connection modify 'Wired connection 1' ipv4.</description></item><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>下記コミットの内容についての記事です。
-update submodule and config.toml update highlightjs リンクの変更 テーマで使用されていた Highlight.js のバージョンが v9.13.1 でした。
-脆弱性の報告もあるのでバージョンを上げようと思いました。
-参考: highlight.js@9.13.1 vulnerabilities 公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。
-- &amp;lt;script src=&amp;quot;{{ &amp;quot;js/highlight.min.js&amp;quot; | absURL }}&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; + &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; あとは initHighlightingOnLoad が非推奨になっているので、ドキュメント通りに変更する。
-Deprecated API - &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt; + &amp;lt;script&amp;gt;hljs.highlightAll();&amp;lt;/script&amp;gt; エラーの修正 これで終わりかなと思ったらコンソールに下記 Warning が。。
-One of your code blocks includes unescaped HTML. This is a potentially serious security risk. https://github.com/highlightjs/highlight.js/wiki/security The element with unescaped HTML: ... 調べてたら強調されているコードを再強調すると Warning が表示されるらしい。
-参考: Repeated highlighting of already highlighted code causes &amp;ldquo;One of your code blocks includes unescaped HTML.</description></item><item><title>こだわりのないdotfiles</title><link>https://whalem.net/post/2024-08/my-dotfiles/</link><pubDate>Tue, 06 Aug 2024 22:18:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/my-dotfiles/</guid><description>利用している dotfiles のリポジトリは非公開にしているので、dotfiles の供養。
-シェルは zsh、ターミナルは MacOS のデフォルトのターミナルを利用します。
-dotfiles ホームディレクトリに .dotfile ディレクトリを作成して、以下のように設定ファイルを配置します。
-.dotfile ├── .zsh │ ├── [plugin] zsh-autosuggestions │ ├── [plugin] zsh-syntax-highlighting │ ├── zsh-darwin.zsh │ ├── zsh-linux.zsh │ └── zsh-custom.zsh └── .zshrc ※実際は git clone するだけです。
-環境別の設定 MacOS、Linux での使用を想定しているので .zshrc に OS ごとの設定ファイルを読み込むように指定します。
-case ${OSTYPE} in darwin*) source $HOME/.zsh/zsh-darwin.zsh ;; linux*) source $HOME/.zsh/zsh-linux.zsh ;; esac if [ -e $HOME/.zsh/zsh-custom.zsh ]; then source $HOME/.zsh/zsh-custom.zsh fi zsh-darwin.zsh や zsh-linux.zsh には LANG などの環境変数や ls の色の調整などを記述します。</description></item><item><title>ページネーションの修正</title><link>https://whalem.net/post/2024-08/fix-theme-pagination/</link><pubDate>Thu, 01 Aug 2024 21:48:27 +0900</pubDate><guid>https://whalem.net/post/2024-08/fix-theme-pagination/</guid><description>下記コミットの内容についての記事です。
-fix pagination tags画面の修正 Tags ページを見ていたらテーマを確認したところページネーションがうまくいっていないことを確認。
-下記の記述になっていました。
-layouts/_default/single.html {{ range .Pages }} &amp;lt;div class=&amp;quot;index-posts__list&amp;quot;&amp;gt; &amp;lt;div class=&amp;quot;l-time&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Date.Format &amp;quot;2006.01.02 15:04&amp;quot; }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;l-title&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; {{ end }} &amp;lt;div class=&amp;quot;index-paginate&amp;quot;&amp;gt; {{ partial &amp;quot;pagination.html&amp;quot; . }} &amp;lt;/div&amp;gt; 単純に Pagination が使われていないのを確認、使うように修正。
-- {{ range .Pages }} + {{ range .Paginator.Pages }} ページネーションの修正 他におかしいところないかと大量に記事を追加して確認するとエラーが。。
-pagination.html:106:28&amp;quot;: execute of template failed at &amp;lt;$pag.Last.Permalink&amp;gt;: can’t evaluate field Permalink in type *page.Pager Pagination のドキュメントを眺めると .Last はあるけど .</description></item><item><title>記事に更新時間の追加</title><link>https://whalem.net/post/2024-07/hugo-lastmod/</link><pubDate>Tue, 30 Jul 2024 22:12:49 +0900</pubDate><guid>https://whalem.net/post/2024-07/hugo-lastmod/</guid><description>個人的にブログの公開日と更新日があるとありがたい。なので Hugo のテーマをいじって更新日を表示する。
-テンプレートの修正 とりあえず公式サイトを調べると Lastmod が使えそう。
-Hugo テーマのテンプレートを操作して Edited on を追加する。
-{{ if ne .Date .Lastmod }} Edited on &amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;{{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }} {{ end }} とりあえず設定されている Date と更新時間が違うなら表示する。あと無理やり &amp;amp;ensp; で幅を調整。
-表示形式は Format を参考にする。
-補足 GitHub Actions でビルドして Lastmod を取得すると GitHub にプッシュした時間が取得されるので(多分)、必ず更新時間が表示されます。。。</description></item><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>久しぶりに更新 全然運用していなかったので、ブログを更新できるか確認していた。
-とりあえずやったことのメモ。
-Hugoの確認 GitHub Pages に移行したときの Hugo のバージョンは 0.83.0 だったけど、今は 0.129.0 になってた。
-とりあえずビルドできるか確認したら、エラーが。。
-parse failed: template: _default/list.html:4: function &amp;quot;sanitizeurl&amp;quot; not defined sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)
-baseUrl のシリアライズなので多分問題ないと思いたい。
-GitHub Actionsの更新 Yaml ファイルの中身を忘れているけど、まぁ使っているものは色々バージョンは上げとく。
-actions/checkout v2 &amp;gt; v4 peaceiris/actions-hugo v2 &amp;gt; v3 peaceiris/actions-gh-pages v3 &amp;gt; v4 あとはDeploy Keyの再設定
-GitHub Pages 用のリポジトリに Deploy keys を登録して、Markdown ファイルを置くリポジトリに Repository secrets を設定する。
-WhaleMountain.github.io Settings &amp;gt; Deploy kyes に公開鍵を登録 whalem Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets に秘密鍵を登録 鍵は 1Password で管理。あとはブログ更新しなくなったら Deploy keys の登録を削除する。</description></item><item><title>ラズパイで動かしていたWikiをGitHub Pagesに移行した</title><link>https://whalem.net/post/2021-05/migrating-mywiki-to-github-pages/</link><pubDate>Sun, 30 May 2021 18:54:00 +0900</pubDate><guid>https://whalem.net/post/2021-05/migrating-mywiki-to-github-pages/</guid><description>移行 ラズパイのDockerで自分用のWikiを動かしていたが、GitHub Pagesの誘惑に負けたので移行する。
-GitHub Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。
-手順 Username.github.io のリポジトリを作成する 上で作成したリポジトリにDeploy Keyを設定する 次にHugoなどの .md ファイルを置くリポジトリを作成する 1で作成したリポジトリにPushするためにSecret Keyを設定する GitHub Actionを設定し終了 ※ 2, 4で設定したKeyはMacOS上でssh-keygenで作成したKeyを設定する。1には公開鍵(.pub)、3には秘密鍵を設定する。
-Github Action Hugo公式のHost on GitHubを参考に作成する。
-name: github pages on: push: branches: - main # Set a branch to deploy paths: - 'pages/**' pull_request: jobs: deploy: runs-on: ubuntu-20.04 steps: - uses: actions/checkout@v2 with: submodules: true # Fetch Hugo themes (true OR recursive) fetch-depth: 0 # Fetch all history for .GitInfo and .</description></item><item><title>Dockerfileのよく忘れる部分のメモ</title><link>https://whalem.net/post/2021-03/dockerfile-memo/</link><pubDate>Sun, 14 Mar 2021 13:13:16 +0900</pubDate><guid>https://whalem.net/post/2021-03/dockerfile-memo/</guid><description>DEBIAN_FRONTEND apt install時にインタラクティブな表示を無効にする。
-RUN DEBIAN_FRONTEND=noninteractive \ apt-get install -y Multi-Stage Build Multi-StageでCOPYする時の指定の仕方。
-FROM golang:rc-alpine3.12 AS build FROM alpine:3.12 COPY --from=build /tmp/main /tmp/</description></item><item><title>GiteaにSSH接続できるようにする</title><link>https://whalem.net/post/2021-03/gitea-ssh-push/</link><pubDate>Sat, 13 Mar 2021 17:09:30 +0900</pubDate><guid>https://whalem.net/post/2021-03/gitea-ssh-push/</guid><description>GiteaはDockerで作成したブリッジネットワークのIPアドレスを振ってNginxでリバースプロキシしてる。Dockerのブリッジドライバーのルールにより、そのブリッジないのコンテナ、もしくはDockerのホストからしかアクセスできない。SSH接続どうしようかなと思ってたのですが、ホスト側を踏み台にしたらいいのか。
-ということで、手元のPC側の~/.ssh/configを編集する。ProxyJumpによりホストを踏み台にできる(ﾌﾐﾌﾐ。
-Host gitea.whalem.net HostName [Container IP Address] User git IdentityFile [Private Key] ProxyJump docker-host Host docker-host HostName [Host Server IP Address] User user あとは、CloneしたりPushしたり。Gitea側にSSH Keyの登録も忘れずに。</description></item><item><title>Raspberry PiにDocker環境のインストール</title><link>https://whalem.net/post/2021-03/docker-on-raspberrypi/</link><pubDate>Sat, 13 Mar 2021 00:50:55 +0900</pubDate><guid>https://whalem.net/post/2021-03/docker-on-raspberrypi/</guid><description>Dockerのインストール 公式ドキュメントに従っても良いが、インストール用のスクリプトがあるのでそれを使う。
-$ curl -fsSL https://get.docker.com -o install-docker.sh $ sh ./install-docker.sh 簡単だね。
-docker-composeのインストール docker-composeのリポジトリのリリースにはarm用のバイナリはないので、ソースからビルドを行う。
-$ git clone https://github.com/docker/compose.git $ cd compose $ git checkout 1.27.4 $ ./script/build/linux しばし待つ。dist下にバイナリが吐かれていれば成功。あとは、/usr/local/binにコピって終了。
-$ ls dist/ docker-compose-linux-aarch64 $ cp dist/dockeer-compose /usr/local/bin/docker-compose $ chown root:root /usr/local/bin/docker-compose $ chmod 755 /usr/local/bin/docker-compose $ docker-compose version docker-compose version 1.27.4, build 40524192 docker-py version: 4.3.1 CPython version: 3.7.7 OpenSSL version: OpenSSL 1.1.0l 10 Sep 2019 Version 1.28.x からビルド時のDockerfileとscript/build/linuxの中身が変わり、今回の環境ではバイナリが吐かれなかった。ビルドは成功してるのにね。面倒なので1.27.4を使用する。</description></item><item><title>DroneのカスタムDNS設定</title><link>https://whalem.net/post/2021-03/drone-network-setting/</link><pubDate>Wed, 10 Mar 2021 12:58:54 +0900</pubDate><guid>https://whalem.net/post/2021-03/drone-network-setting/</guid><description>自宅の環境でGitea/Droneを構築していたが、CI時にGiteaからリポジトリをCloneできない。ドメインに接続できないと。自宅のLANからWAN側のIPにはアクセスできないので、内部DNSとしてUnboundを構築した。
-Initialized empty Git repository in /drone/src/.git/ + git fetch origin +refs/heads/master: fatal: unable to access 'http://gitea.whalem.net/whalem/drone_ci_test.git/': Failed to connect to gitea.whalem.net port 80: Operation timed out DNSを構築したので、Drone Runnerへ設定したが、同じようにFailed to connect to gitea.whalem.net port 80: Operation timed outとなる。Pingしてみると。
-$ ping -c 4 gitea.whalem.net PING gitea.whalem.net (&amp;lt;WAN_IP&amp;gt;): 56 data bytes 64 bytes from &amp;lt;WAN_IP&amp;gt;: seq=0 ttl=254 time=0.890 ms あらら。Runnerに設定したけど、Pipelineの処理は別コンテナが作成され実行されるので、Runnerに設定しても意味ないと。Droneが作成するコンテナへDNSの設定方法を調べたけど、あまり良さそうな解決策は見つからなかったので、下の方法をとる。
-Specify a host or a custom dns in drone-git image /etc/docker/daemon.jsonに内部DNSのアドレスを追加する。daemon.jsonは無ければ新しく作成する。
-{ &amp;quot;dns&amp;quot;: [&amp;quot;CUSTOM_DNS&amp;quot;, &amp;quot;8.</description></item><item><title>The first</title><link>https://whalem.net/post/2021-03/first-post/</link><pubDate>Tue, 09 Mar 2021 21:02:51 +0900</pubDate><guid>https://whalem.net/post/2021-03/first-post/</guid><description>Hello Hello, World!!</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Whale Mountain</title><link>https://whalem.net/post/</link><description>Recent content in Posts on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 24 Feb 2025 21:03:34 +0900</lastBuildDate><atom:link href="https://whalem.net/post/index.xml" rel="self" type="application/rss+xml"/><item><title>AdGuard Homeの導入</title><link>https://whalem.net/post/2025-02/adgurd-home-setup/</link><pubDate>Mon, 24 Feb 2025 21:03:34 +0900</pubDate><guid>https://whalem.net/post/2025-02/adgurd-home-setup/</guid><description>&lt;p>Raspberry PiにAdGuard Homeを導入したので設定内容をまとめる。&lt;/p>
+&lt;ul>
+&lt;li>使用環境
+&lt;ul>
+&lt;li>Raspberry Pi 3B+ (多分)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="adguard-homeの起動">AdGuard Homeの起動&lt;/h3>
+&lt;p>Docker を使って Adguard Home を起動します。&lt;br>
+作業用のディレクトリを作成し、&lt;code>compose.yaml&lt;/code>を作成します。ポートは利用すもののみ設定します。&lt;/p>
+&lt;pre>&lt;code class="language-yaml">services:
+ adgaurd:
+ container_name: &amp;quot;adguard-home&amp;quot;
+ image: adguard/adguardhome:v0.107.57
+ restart: always
+ volumes:
+ - ./work:/opt/adguardhome/work
+ - ./conf:/opt/adguardhome/conf
+ ports:
+ - &amp;quot;53:53/tcp&amp;quot;
+ - &amp;quot;53:53/udp&amp;quot;
+ - &amp;quot;80:80/tcp&amp;quot;
+&lt;/code>&lt;/pre>
+&lt;h3 id="ダッシュボードにアクセス">ダッシュボードにアクセス&lt;/h3>
+&lt;p>ブラウザから Adguard Home のダッシュボードにアクセスします。&lt;code>http://ラズパイのHost名.local&lt;/code> を開きパスワード等を設定します。&lt;br>
+設定 &amp;gt; DNS設定 &amp;gt; アップストリームDNSサーバー に &lt;code>8.8.8.8&lt;/code> など好みのDNSを設定します。&lt;/p>
+&lt;ul>
+&lt;li>設定例&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-txt">8.8.8.8
+8.8.4.4
+1.1.1.1
+1.0.0.1
+2001:4860:4860::8888
+2001:4860:4860::8844
+2606:4700:4700::1111
+2606:4700:4700::1001
+https://dns10.quad9.net/dns-query
+https://cloudflare-dns.com/dns-query
+&lt;/code>&lt;/pre>
+&lt;p>あとは好みの設定をしたら終わりです。&lt;/p>
+&lt;h3 id="dnsの設定">DNSの設定&lt;/h3>
+&lt;p>ダッシュボードのセットアップガイドではコンテナ内のIPが表示されるので、ラズパイ側のIPを &lt;code>ip a&lt;/code> などで確認します。&lt;br>
+スマホやPCなどのDNS設定をするか、ルーターにDNS設定して利用してください。&lt;/p></description></item><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>&lt;p>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。&lt;/p>
+&lt;ul>
+&lt;li>使用環境
+&lt;ul>
+&lt;li>Raspberry Pi 3B+ (多分)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sdカードにイメージを書き込む">SDカードにイメージを書き込む&lt;/h3>
+&lt;p>&lt;a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager&lt;/a> を利用して microSDカードにイメージを書き込みます。&lt;br>
+GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。簡単！！&lt;/p>
+&lt;h3 id="sudoの初期設定">sudoの初期設定&lt;/h3>
+&lt;p>デフォルトだと sudo の実行にパスワードが要求されない。&lt;code>sudoers.d&lt;/code> 内にあるファイルを確認すると &lt;code>NOPASSWD&lt;/code> が設定されている。&lt;/p>
+&lt;ul>
+&lt;li>デフォルトの設定&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-shell">$ sudo cat /etc/sudoers.d/010_pi-nopasswd 
+[ユーザー] ALL=(ALL) NOPASSWD: ALL
+&lt;/code>&lt;/pre>
+&lt;p>対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ sudo rm /etc/sudoers.d/010_pi-nopasswd
+&lt;/code>&lt;/pre>
+&lt;h3 id="無線関連の設定">無線関連の設定&lt;/h3>
+&lt;p>有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。&lt;br>
+&lt;code>/boot/overlays/README&lt;/code> を見てフラグを確認して下記ファイルに書き込む。&lt;/p>
+&lt;ul>
+&lt;li>/boot/firmware/config.txt&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code>dtoverlay=disable-bt
+dtoverlay=disable-wifi
+&lt;/code>&lt;/pre>
+&lt;p>再起動後に &lt;code>ip a&lt;/code> で &lt;code>wlan0&lt;/code> が表示されないことを確認する。&lt;/p>
+&lt;h3 id="ipアドレスの設定">IPアドレスの設定&lt;/h3>
+&lt;p>Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。&lt;/p></description></item><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/whalem/commit/915fa2653faf452a911f054bc17ed8cbd372cdff">update submodule and config.toml&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/hugo-theme-yuki/commit/e00767e95db6532b5cb5892f8627795c694c582d">update highlightjs&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="リンクの変更">リンクの変更&lt;/h3>
+&lt;p>テーマで使用されていた &lt;a href="https://highlightjs.org/">Highlight.js&lt;/a> のバージョンが &lt;code>v9.13.1&lt;/code> でした。&lt;br>
+脆弱性の報告もあるのでバージョンを上げようと思いました。&lt;/p>
+&lt;ul>
+&lt;li>参考: &lt;a href="https://security.snyk.io/package/npm/highlight.js/9.13.1">highlight.js@9.13.1 vulnerabilities&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。&lt;/p>
+&lt;pre>&lt;code class="language-diff">- &amp;lt;script src=&amp;quot;{{ &amp;quot;js/highlight.min.js&amp;quot; | absURL }}&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
++ &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>あとは &lt;code>initHighlightingOnLoad&lt;/code> が非推奨になっているので、ドキュメント通りに変更する。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://highlightjs.readthedocs.io/en/latest/api.html?highlight=initHighlightingOnLoad#inithighlightingonload">Deprecated API&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-diff">- &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt;
++ &amp;lt;script&amp;gt;hljs.highlightAll();&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h3 id="エラーの修正">エラーの修正&lt;/h3>
+&lt;p>これで終わりかなと思ったらコンソールに下記 Warning が。。&lt;/p>
+&lt;pre>&lt;code class="language-console">One of your code blocks includes unescaped HTML. This is a potentially serious security risk.
+https://github.com/highlightjs/highlight.js/wiki/security
+The element with unescaped HTML:
+...
+&lt;/code>&lt;/pre>
+&lt;p>調べてたら強調されているコードを再強調すると Warning が表示されるらしい。&lt;/p>
+&lt;ul>
+&lt;li>参考: &lt;a href="https://github.com/highlightjs/highlight.js/issues/3761">Repeated highlighting of already highlighted code causes &amp;ldquo;&lt;em>One of your code blocks includes unescaped HTML. This is a potentially serious security risk.&lt;/em>&amp;rdquo;&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>実際にコンソールで &lt;code>hljs.highlightAll();&lt;/code> を叩いてみるとページ表示時と同じ箇所で Warning が表示されました。&lt;br>
+色々試して Highlight.js の読み込みを削除してもシンタックスハイライトが適用されていました。
+Hugo のドキュメントを見てみると Hugo 側で &lt;a href="https://gohugo.io/content-management/syntax-highlighting/#highlight-shortcode">Syntax highlighting&lt;/a> 機能を持っているようでした。&lt;/p></description></item><item><title>こだわりのないdotfiles</title><link>https://whalem.net/post/2024-08/my-dotfiles/</link><pubDate>Tue, 06 Aug 2024 22:18:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/my-dotfiles/</guid><description>&lt;p>利用している &lt;code>dotfiles&lt;/code> のリポジトリは非公開にしているので、&lt;code>dotfiles&lt;/code> の供養。&lt;br>
+シェルは &lt;code>zsh&lt;/code>、ターミナルは MacOS のデフォルトのターミナルを利用します。&lt;/p>
+&lt;h3 id="dotfiles">dotfiles&lt;/h3>
+&lt;p>ホームディレクトリに &lt;code>.dotfile&lt;/code> ディレクトリを作成して、以下のように設定ファイルを配置します。&lt;/p>
+&lt;pre>&lt;code>.dotfile
+├── .zsh
+│   ├── [plugin] zsh-autosuggestions
+│   ├── [plugin] zsh-syntax-highlighting
+│   ├── zsh-darwin.zsh
+│   ├── zsh-linux.zsh
+│   └── zsh-custom.zsh
+└── .zshrc
+&lt;/code>&lt;/pre>
+&lt;p>※実際は &lt;code>git clone&lt;/code> するだけです。&lt;/p>
+&lt;h4 id="環境別の設定">環境別の設定&lt;/h4>
+&lt;p>MacOS、Linux での使用を想定しているので &lt;code>.zshrc&lt;/code> に OS ごとの設定ファイルを読み込むように指定します。&lt;/p>
+&lt;pre>&lt;code class="language-zsh">case ${OSTYPE} in
+ darwin*)
+ source $HOME/.zsh/zsh-darwin.zsh
+ ;;
+ linux*)
+ source $HOME/.zsh/zsh-linux.zsh
+ ;;
+esac
+if [ -e $HOME/.zsh/zsh-custom.zsh ]; then
+ source $HOME/.zsh/zsh-custom.zsh
+fi
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>zsh-darwin.zsh&lt;/code> や &lt;code>zsh-linux.zsh&lt;/code> には &lt;code>LANG&lt;/code> などの環境変数や &lt;code>ls&lt;/code> の色の調整などを記述します。&lt;br>
+環境ごとの個別設定 (&lt;code>PATH&lt;/code>など) は &lt;code>zsh-custom.zsh&lt;/code> に書き込むと管理しやすいです。&lt;/p></description></item><item><title>ページネーションの修正</title><link>https://whalem.net/post/2024-08/fix-theme-pagination/</link><pubDate>Thu, 01 Aug 2024 21:48:27 +0900</pubDate><guid>https://whalem.net/post/2024-08/fix-theme-pagination/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/hugo-theme-yuki/commit/a68896df01a2e32293fe6b0396c81d442667b084">fix pagination&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="tags画面の修正">tags画面の修正&lt;/h2>
+&lt;p>&lt;a href="https://whalem.net/tags/">Tags&lt;/a> ページを見ていたらテーマを確認したところページネーションがうまくいっていないことを確認。&lt;br>
+下記の記述になっていました。&lt;/p>
+&lt;ul>
+&lt;li>layouts/_default/single.html&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-html">{{ range .Pages }}
+ &amp;lt;div class=&amp;quot;index-posts__list&amp;quot;&amp;gt;
+ &amp;lt;div class=&amp;quot;l-time&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Date.Format &amp;quot;2006.01.02 15:04&amp;quot; }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;quot;l-title&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+{{ end }}
+
+&amp;lt;div class=&amp;quot;index-paginate&amp;quot;&amp;gt;
+ {{ partial &amp;quot;pagination.html&amp;quot; . }}
+&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>単純に &lt;a href="https://gohugo.io/templates/pagination/">Pagination&lt;/a> が使われていないのを確認、使うように修正。&lt;/p>
+&lt;pre>&lt;code class="language-diff">- {{ range .Pages }}
++ {{ range .Paginator.Pages }}
+&lt;/code>&lt;/pre>
+&lt;h2 id="ページネーションの修正">ページネーションの修正&lt;/h2>
+&lt;p>他におかしいところないかと大量に記事を追加して確認するとエラーが。。&lt;/p>
+&lt;pre>&lt;code class="language-shell">pagination.html:106:28&amp;quot;: execute of template failed at &amp;lt;$pag.Last.Permalink&amp;gt;: can’t evaluate field Permalink in type *page.Pager
+&lt;/code>&lt;/pre>
+&lt;p>&lt;a href="https://gohugo.io/templates/pagination/">Pagination&lt;/a> のドキュメントを眺めると &lt;code>.Last&lt;/code> はあるけど &lt;code>.Last.Permalink&lt;/code> については書かれていない。&lt;br>
+よく見るとドキュメントに&lt;a href="https://gohugo.io/methods/pager/last/">正しい書き方&lt;/a>があるのでそれに修正する。&lt;/p></description></item><item><title>記事に更新時間の追加</title><link>https://whalem.net/post/2024-07/hugo-lastmod/</link><pubDate>Tue, 30 Jul 2024 22:12:49 +0900</pubDate><guid>https://whalem.net/post/2024-07/hugo-lastmod/</guid><description>&lt;p>個人的にブログの公開日と更新日があるとありがたい。なので Hugo のテーマをいじって更新日を表示する。&lt;/p>
+&lt;h2 id="テンプレートの修正">テンプレートの修正&lt;/h2>
+&lt;p>とりあえず公式サイトを調べると &lt;a href="https://gohugo.io/methods/page/lastmod/">Lastmod&lt;/a> が使えそう。&lt;/p>
+&lt;p>Hugo テーマのテンプレートを操作して &lt;code>Edited on&lt;/code> を追加する。&lt;/p>
+&lt;pre>&lt;code class="language-html">{{ if ne .Date .Lastmod }}
+ Edited on &amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;{{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }}
+{{ end }}
+&lt;/code>&lt;/pre>
+&lt;p>とりあえず設定されている &lt;code>Date&lt;/code> と更新時間が違うなら表示する。あと無理やり &lt;code>&amp;amp;ensp;&lt;/code> で幅を調整。&lt;br>
+表示形式は &lt;a href="https://gohugo.io/methods/time/format/">Format&lt;/a> を参考にする。&lt;/p>
+&lt;h2 id="補足">補足&lt;/h2>
+&lt;p>GitHub Actions でビルドして Lastmod を取得すると GitHub にプッシュした時間が取得されるので(多分)、必ず更新時間が表示されます。。。&lt;/p></description></item><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>&lt;h2 id="久しぶりに更新">久しぶりに更新&lt;/h2>
+&lt;p>全然運用していなかったので、ブログを更新できるか確認していた。&lt;br>
+とりあえずやったことのメモ。&lt;/p>
+&lt;h2 id="hugoの確認">Hugoの確認&lt;/h2>
+&lt;p>GitHub Pages に移行したときの Hugo のバージョンは &lt;code>0.83.0&lt;/code> だったけど、今は &lt;code>0.129.0&lt;/code> になってた。&lt;br>
+とりあえずビルドできるか確認したら、エラーが。。&lt;/p>
+&lt;pre>&lt;code class="language-shell"> parse failed: template: _default/list.html:4: function &amp;quot;sanitizeurl&amp;quot; not defined
+&lt;/code>&lt;/pre>
+&lt;p>sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)&lt;br>
+baseUrl のシリアライズなので多分問題ないと思いたい。&lt;/p>
+&lt;h2 id="github-actionsの更新">GitHub Actionsの更新&lt;/h2>
+&lt;p>Yaml ファイルの中身を忘れているけど、まぁ使っているものは色々バージョンは上げとく。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/actions/checkout">actions/checkout&lt;/a>
+&lt;ul>
+&lt;li>v2 &amp;gt; v4&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://github.com/peaceiris/actions-hugo">peaceiris/actions-hugo&lt;/a>
+&lt;ul>
+&lt;li>v2 &amp;gt; v3&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://github.com/peaceiris/actions-gh-pages">peaceiris/actions-gh-pages&lt;/a>
+&lt;ul>
+&lt;li>v3 &amp;gt; v4&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>あとはDeploy Keyの再設定&lt;br>
+GitHub Pages 用のリポジトリに &lt;a href="https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/managing-deploy-keys">Deploy keys&lt;/a> を登録して、Markdown ファイルを置くリポジトリに Repository secrets を設定する。&lt;/p>
+&lt;ul>
+&lt;li>WhaleMountain.github.io
+&lt;ul>
+&lt;li>&lt;code>Settings &amp;gt; Deploy kyes&lt;/code> に公開鍵を登録&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>whalem
+&lt;ul>
+&lt;li>&lt;code>Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets&lt;/code> に秘密鍵を登録&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>鍵は 1Password で管理。あとはブログ更新しなくなったら Deploy keys の登録を削除する。&lt;/p></description></item><item><title>ラズパイで動かしていたWikiをGitHub Pagesに移行した</title><link>https://whalem.net/post/2021-05/migrating-mywiki-to-github-pages/</link><pubDate>Sun, 30 May 2021 18:54:00 +0900</pubDate><guid>https://whalem.net/post/2021-05/migrating-mywiki-to-github-pages/</guid><description>&lt;h4 id="移行">移行&lt;/h4>
+&lt;p>ラズパイの&lt;code>Docker&lt;/code>で自分用のWikiを動かしていたが、GitHub Pagesの誘惑に負けたので移行する。&lt;br>
+GitHub Pagesの公開用のリポジトリと、ソース用のリポジトリを分けて作成しているが、個人的にこの構成が好きだからで、特に深い意味はありません。&lt;/p>
+&lt;h4 id="手順">手順&lt;/h4>
+&lt;ol>
+&lt;li>&lt;strong>Username.github.io&lt;/strong> のリポジトリを作成する&lt;/li>
+&lt;li>上で作成したリポジトリに&lt;a href="https://docs.github.com/ja/developers/overview/managing-deploy-keys#%E3%83%87%E3%83%97%E3%83%AD%E3%82%A4%E3%82%AD%E3%83%BC">Deploy Key&lt;/a>を設定する&lt;/li>
+&lt;li>次にHugoなどの &lt;strong>.md&lt;/strong> ファイルを置くリポジトリを作成する&lt;/li>
+&lt;li>1で作成したリポジトリにPushするために&lt;a href="https://docs.github.com/ja/actions/reference/encrypted-secrets#%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%81%AE%E6%9A%97%E5%8F%B7%E5%8C%96%E3%81%95%E3%82%8C%E3%81%9F%E3%82%B7%E3%83%BC%E3%82%AF%E3%83%AC%E3%83%83%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90">Secret Key&lt;/a>を設定する&lt;/li>
+&lt;li>GitHub Actionを設定し終了&lt;/li>
+&lt;/ol>
+&lt;p>※ 2, 4で設定したKeyはMacOS上で&lt;code>ssh-keygen&lt;/code>で作成したKeyを設定する。1には公開鍵(&lt;code>.pub&lt;/code>)、3には秘密鍵を設定する。&lt;/p>
+&lt;h4 id="github-action">Github Action&lt;/h4>
+&lt;p>Hugo公式の&lt;a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">Host on GitHub&lt;/a>を参考に作成する。&lt;/p>
+&lt;pre>&lt;code>name: github pages
+
+on:
+ push:
+ branches:
+ - main # Set a branch to deploy
+ paths:
+ - 'pages/**'
+ pull_request:
+
+jobs:
+ deploy:
+ runs-on: ubuntu-20.04
+ steps:
+ - uses: actions/checkout@v2
+ with:
+ submodules: true # Fetch Hugo themes (true OR recursive)
+ fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+
+ - name: Setup Hugo
+ uses: peaceiris/actions-hugo@v2
+ with:
+ hugo-version: 'latest'
+ extended: true
+
+ - name: Build
+ run: hugo
+ working-directory: ./pages
+
+ - name: Deploy
+ uses: peaceiris/actions-gh-pages@v3
+ with: 
+ external_repository: WhaleMountain/WhaleMountain.github.io
+ publish_branch: main
+ publish_dir: ./pages/public
+ deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+ cname: whalem.net
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>paths&lt;/code>を設定することで、設定したパス(&lt;code>pages/**&lt;/code>)に変更があった場合にGitHub Actionが動くようになる。(参考: &lt;a href="https://docs.github.com/ja/actions/reference/workflow-syntax-for-github-actions">GitHub Actionsのワークフロー構文&lt;/a>)&lt;br>
+また、ソース用のリポジトリに旧構成のバックアップがあるため、Build時にHugoのソースがあるディレクトリに&lt;code>working-directory&lt;/code>で移動する。&lt;/p></description></item><item><title>Dockerfileのよく忘れる部分のメモ</title><link>https://whalem.net/post/2021-03/dockerfile-memo/</link><pubDate>Sun, 14 Mar 2021 13:13:16 +0900</pubDate><guid>https://whalem.net/post/2021-03/dockerfile-memo/</guid><description>&lt;h4 id="debian_frontend">DEBIAN_FRONTEND&lt;/h4>
+&lt;p>&lt;code>apt install&lt;/code>時にインタラクティブな表示を無効にする。&lt;/p>
+&lt;pre>&lt;code>RUN DEBIAN_FRONTEND=noninteractive \
+ apt-get install -y
+&lt;/code>&lt;/pre>
+&lt;h4 id="multi-stage-build">Multi-Stage Build&lt;/h4>
+&lt;p>&lt;a href="https://docs.docker.com/develop/develop-images/multistage-build/">Multi-Stage&lt;/a>で&lt;code>COPY&lt;/code>する時の指定の仕方。&lt;/p>
+&lt;pre>&lt;code>FROM golang:rc-alpine3.12 AS build
+
+FROM alpine:3.12
+COPY --from=build /tmp/main /tmp/
+&lt;/code>&lt;/pre></description></item><item><title>GiteaにSSH接続できるようにする</title><link>https://whalem.net/post/2021-03/gitea-ssh-push/</link><pubDate>Sat, 13 Mar 2021 17:09:30 +0900</pubDate><guid>https://whalem.net/post/2021-03/gitea-ssh-push/</guid><description>&lt;p>GiteaはDockerで作成したブリッジネットワークのIPアドレスを振ってNginxでリバースプロキシしてる。Dockerのブリッジドライバーのルールにより、そのブリッジないのコンテナ、もしくはDockerのホストからしかアクセスできない。SSH接続どうしようかなと思ってたのですが、ホスト側を踏み台にしたらいいのか。&lt;/p>
+&lt;p>ということで、手元のPC側の&lt;code>~/.ssh/config&lt;/code>を編集する。&lt;code>ProxyJump&lt;/code>によりホストを踏み台にできる(ﾌﾐﾌﾐ。&lt;/p>
+&lt;pre>&lt;code>Host gitea.whalem.net
+ HostName [Container IP Address]
+ User git
+ IdentityFile [Private Key]
+ ProxyJump docker-host
+
+Host docker-host
+ HostName [Host Server IP Address]
+ User user
+&lt;/code>&lt;/pre>
+&lt;p>あとは、CloneしたりPushしたり。Gitea側に&lt;strong>SSH Keyの登録&lt;/strong>も忘れずに。&lt;/p></description></item><item><title>Raspberry PiにDocker環境のインストール</title><link>https://whalem.net/post/2021-03/docker-on-raspberrypi/</link><pubDate>Sat, 13 Mar 2021 00:50:55 +0900</pubDate><guid>https://whalem.net/post/2021-03/docker-on-raspberrypi/</guid><description>&lt;h2 id="dockerのインストール">Dockerのインストール&lt;/h2>
+&lt;p>&lt;a href="https://docs.docker.com/engine/install/debian/">公式ドキュメント&lt;/a>に従っても良いが、インストール用のスクリプトがあるのでそれを使う。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ curl -fsSL https://get.docker.com -o install-docker.sh
+
+$ sh ./install-docker.sh
+&lt;/code>&lt;/pre>
+&lt;p>簡単だね。&lt;/p>
+&lt;h2 id="docker-composeのインストール">docker-composeのインストール&lt;/h2>
+&lt;p>docker-composeの&lt;a href="https://github.com/docker/compose.git">リポジトリ&lt;/a>のリリースにはarm用のバイナリはないので、ソースからビルドを行う。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ git clone https://github.com/docker/compose.git
+
+$ cd compose
+
+$ git checkout 1.27.4
+
+$ ./script/build/linux
+&lt;/code>&lt;/pre>
+&lt;p>しばし待つ。&lt;code>dist&lt;/code>下にバイナリが吐かれていれば成功。あとは、&lt;code>/usr/local/bin&lt;/code>にコピって終了。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ ls dist/
+docker-compose-linux-aarch64
+
+$ cp dist/dockeer-compose /usr/local/bin/docker-compose
+
+$ chown root:root /usr/local/bin/docker-compose
+
+$ chmod 755 /usr/local/bin/docker-compose
+
+$ docker-compose version
+docker-compose version 1.27.4, build 40524192
+docker-py version: 4.3.1
+CPython version: 3.7.7
+OpenSSL version: OpenSSL 1.1.0l 10 Sep 2019
+&lt;/code>&lt;/pre>
+&lt;p>Version 1.28.x からビルド時の&lt;code>Dockerfile&lt;/code>と&lt;code>script/build/linux&lt;/code>の中身が変わり、今回の環境ではバイナリが吐かれなかった。ビルドは成功してるのにね。面倒なので1.27.4を使用する。&lt;/p></description></item><item><title>DroneのカスタムDNS設定</title><link>https://whalem.net/post/2021-03/drone-network-setting/</link><pubDate>Wed, 10 Mar 2021 12:58:54 +0900</pubDate><guid>https://whalem.net/post/2021-03/drone-network-setting/</guid><description>&lt;p>自宅の環境でGitea/Droneを構築していたが、CI時にGiteaからリポジトリをCloneできない。ドメインに接続できないと。自宅のLANからWAN側のIPにはアクセスできないので、内部DNSとして&lt;a href="https://unbound.jp/unbound/">Unbound&lt;/a>を構築した。&lt;/p>
+&lt;pre>&lt;code class="language-shell">Initialized empty Git repository in /drone/src/.git/
++ git fetch origin +refs/heads/master:
+fatal: unable to access 'http://gitea.whalem.net/whalem/drone_ci_test.git/': Failed to connect to gitea.whalem.net port 80: Operation timed out
+&lt;/code>&lt;/pre>
+&lt;p>DNSを構築したので、Drone Runnerへ設定したが、同じように&lt;code>Failed to connect to gitea.whalem.net port 80: Operation timed out&lt;/code>となる。Pingしてみると。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ ping -c 4 gitea.whalem.net
+PING gitea.whalem.net (&amp;lt;WAN_IP&amp;gt;): 56 data bytes
+64 bytes from &amp;lt;WAN_IP&amp;gt;: seq=0 ttl=254 time=0.890 ms
+&lt;/code>&lt;/pre>
+&lt;p>あらら。Runnerに設定したけど、Pipelineの処理は別コンテナが作成され実行されるので、Runnerに設定しても意味ないと。Droneが作成するコンテナへDNSの設定方法を調べたけど、あまり良さそうな解決策は見つからなかったので、下の方法をとる。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://discourse.drone.io/t/specify-a-host-or-a-custom-dns-in-drone-git-image/308">Specify a host or a custom dns in drone-git image&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>/etc/docker/daemon.json&lt;/code>に内部DNSのアドレスを追加する。&lt;code>daemon.json&lt;/code>は無ければ新しく作成する。&lt;/p></description></item><item><title>The first</title><link>https://whalem.net/post/2021-03/first-post/</link><pubDate>Tue, 09 Mar 2021 21:02:51 +0900</pubDate><guid>https://whalem.net/post/2021-03/first-post/</guid><description>&lt;h2 id="hello">Hello&lt;/h2>
+&lt;ul>
+&lt;li>Hello, World!!&lt;/li>
+&lt;/ul></description></item></channel></rss>

@@ -1,27 +1,128 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024-08 on Whale Mountain</title><link>https://whalem.net/tags/2024-08/</link><description>Recent content in 2024-08 on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sat, 17 Aug 2024 17:27:15 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/2024-08/index.xml" rel="self" type="application/rss+xml"/><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。
-使用環境 Raspberry Pi 3B+ (多分) SDカードにイメージを書き込む Raspberry Pi Imager を利用して microSDカードにイメージを書き込みます。
-GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。簡単！！
-sudoの初期設定 デフォルトだと sudo の実行にパスワードが要求されない。sudoers.d 内にあるファイルを確認すると NOPASSWD が設定されている。
-デフォルトの設定 $ sudo cat /etc/sudoers.d/010_pi-nopasswd [ユーザー] ALL=(ALL) NOPASSWD: ALL 対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)
-$ sudo rm /etc/sudoers.d/010_pi-nopasswd 無線関連の設定 有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。
-/boot/overlays/README を見てフラグを確認して下記ファイルに書き込む。
-/boot/firmware/config.txt dtoverlay=disable-bt dtoverlay=disable-wifi 再起動後に ip a で wlan0 が表示されないことを確認する。
-IPアドレスの設定 Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。
-参考: Raspberry Pi OS のネットワーク設定 $ sudo nmcli connection modify 'Wired connection 1' ipv4.</description></item><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>下記コミットの内容についての記事です。
-update submodule and config.toml update highlightjs リンクの変更 テーマで使用されていた Highlight.js のバージョンが v9.13.1 でした。
-脆弱性の報告もあるのでバージョンを上げようと思いました。
-参考: highlight.js@9.13.1 vulnerabilities 公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。
-- &amp;lt;script src=&amp;quot;{{ &amp;quot;js/highlight.min.js&amp;quot; | absURL }}&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; + &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; あとは initHighlightingOnLoad が非推奨になっているので、ドキュメント通りに変更する。
-Deprecated API - &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt; + &amp;lt;script&amp;gt;hljs.highlightAll();&amp;lt;/script&amp;gt; エラーの修正 これで終わりかなと思ったらコンソールに下記 Warning が。。
-One of your code blocks includes unescaped HTML. This is a potentially serious security risk. https://github.com/highlightjs/highlight.js/wiki/security The element with unescaped HTML: ... 調べてたら強調されているコードを再強調すると Warning が表示されるらしい。
-参考: Repeated highlighting of already highlighted code causes &amp;ldquo;One of your code blocks includes unescaped HTML.</description></item><item><title>こだわりのないdotfiles</title><link>https://whalem.net/post/2024-08/my-dotfiles/</link><pubDate>Tue, 06 Aug 2024 22:18:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/my-dotfiles/</guid><description>利用している dotfiles のリポジトリは非公開にしているので、dotfiles の供養。
-シェルは zsh、ターミナルは MacOS のデフォルトのターミナルを利用します。
-dotfiles ホームディレクトリに .dotfile ディレクトリを作成して、以下のように設定ファイルを配置します。
-.dotfile ├── .zsh │ ├── [plugin] zsh-autosuggestions │ ├── [plugin] zsh-syntax-highlighting │ ├── zsh-darwin.zsh │ ├── zsh-linux.zsh │ └── zsh-custom.zsh └── .zshrc ※実際は git clone するだけです。
-環境別の設定 MacOS、Linux での使用を想定しているので .zshrc に OS ごとの設定ファイルを読み込むように指定します。
-case ${OSTYPE} in darwin*) source $HOME/.zsh/zsh-darwin.zsh ;; linux*) source $HOME/.zsh/zsh-linux.zsh ;; esac if [ -e $HOME/.zsh/zsh-custom.zsh ]; then source $HOME/.zsh/zsh-custom.zsh fi zsh-darwin.zsh や zsh-linux.zsh には LANG などの環境変数や ls の色の調整などを記述します。</description></item><item><title>ページネーションの修正</title><link>https://whalem.net/post/2024-08/fix-theme-pagination/</link><pubDate>Thu, 01 Aug 2024 21:48:27 +0900</pubDate><guid>https://whalem.net/post/2024-08/fix-theme-pagination/</guid><description>下記コミットの内容についての記事です。
-fix pagination tags画面の修正 Tags ページを見ていたらテーマを確認したところページネーションがうまくいっていないことを確認。
-下記の記述になっていました。
-layouts/_default/single.html {{ range .Pages }} &amp;lt;div class=&amp;quot;index-posts__list&amp;quot;&amp;gt; &amp;lt;div class=&amp;quot;l-time&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Date.Format &amp;quot;2006.01.02 15:04&amp;quot; }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;div class=&amp;quot;l-title&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt; {{ end }} &amp;lt;div class=&amp;quot;index-paginate&amp;quot;&amp;gt; {{ partial &amp;quot;pagination.html&amp;quot; . }} &amp;lt;/div&amp;gt; 単純に Pagination が使われていないのを確認、使うように修正。
-- {{ range .Pages }} + {{ range .Paginator.Pages }} ページネーションの修正 他におかしいところないかと大量に記事を追加して確認するとエラーが。。
-pagination.html:106:28&amp;quot;: execute of template failed at &amp;lt;$pag.Last.Permalink&amp;gt;: can’t evaluate field Permalink in type *page.Pager Pagination のドキュメントを眺めると .Last はあるけど .</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024-08 on Whale Mountain</title><link>https://whalem.net/tags/2024-08/</link><description>Recent content in 2024-08 on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sat, 17 Aug 2024 16:07:50 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/2024-08/index.xml" rel="self" type="application/rss+xml"/><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>&lt;p>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。&lt;/p>
+&lt;ul>
+&lt;li>使用環境
+&lt;ul>
+&lt;li>Raspberry Pi 3B+ (多分)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sdカードにイメージを書き込む">SDカードにイメージを書き込む&lt;/h3>
+&lt;p>&lt;a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager&lt;/a> を利用して microSDカードにイメージを書き込みます。&lt;br>
+GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。簡単！！&lt;/p>
+&lt;h3 id="sudoの初期設定">sudoの初期設定&lt;/h3>
+&lt;p>デフォルトだと sudo の実行にパスワードが要求されない。&lt;code>sudoers.d&lt;/code> 内にあるファイルを確認すると &lt;code>NOPASSWD&lt;/code> が設定されている。&lt;/p>
+&lt;ul>
+&lt;li>デフォルトの設定&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-shell">$ sudo cat /etc/sudoers.d/010_pi-nopasswd 
+[ユーザー] ALL=(ALL) NOPASSWD: ALL
+&lt;/code>&lt;/pre>
+&lt;p>対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ sudo rm /etc/sudoers.d/010_pi-nopasswd
+&lt;/code>&lt;/pre>
+&lt;h3 id="無線関連の設定">無線関連の設定&lt;/h3>
+&lt;p>有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。&lt;br>
+&lt;code>/boot/overlays/README&lt;/code> を見てフラグを確認して下記ファイルに書き込む。&lt;/p>
+&lt;ul>
+&lt;li>/boot/firmware/config.txt&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code>dtoverlay=disable-bt
+dtoverlay=disable-wifi
+&lt;/code>&lt;/pre>
+&lt;p>再起動後に &lt;code>ip a&lt;/code> で &lt;code>wlan0&lt;/code> が表示されないことを確認する。&lt;/p>
+&lt;h3 id="ipアドレスの設定">IPアドレスの設定&lt;/h3>
+&lt;p>Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。&lt;/p></description></item><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/whalem/commit/915fa2653faf452a911f054bc17ed8cbd372cdff">update submodule and config.toml&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/hugo-theme-yuki/commit/e00767e95db6532b5cb5892f8627795c694c582d">update highlightjs&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="リンクの変更">リンクの変更&lt;/h3>
+&lt;p>テーマで使用されていた &lt;a href="https://highlightjs.org/">Highlight.js&lt;/a> のバージョンが &lt;code>v9.13.1&lt;/code> でした。&lt;br>
+脆弱性の報告もあるのでバージョンを上げようと思いました。&lt;/p>
+&lt;ul>
+&lt;li>参考: &lt;a href="https://security.snyk.io/package/npm/highlight.js/9.13.1">highlight.js@9.13.1 vulnerabilities&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。&lt;/p>
+&lt;pre>&lt;code class="language-diff">- &amp;lt;script src=&amp;quot;{{ &amp;quot;js/highlight.min.js&amp;quot; | absURL }}&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
++ &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>あとは &lt;code>initHighlightingOnLoad&lt;/code> が非推奨になっているので、ドキュメント通りに変更する。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://highlightjs.readthedocs.io/en/latest/api.html?highlight=initHighlightingOnLoad#inithighlightingonload">Deprecated API&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-diff">- &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt;
++ &amp;lt;script&amp;gt;hljs.highlightAll();&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h3 id="エラーの修正">エラーの修正&lt;/h3>
+&lt;p>これで終わりかなと思ったらコンソールに下記 Warning が。。&lt;/p>
+&lt;pre>&lt;code class="language-console">One of your code blocks includes unescaped HTML. This is a potentially serious security risk.
+https://github.com/highlightjs/highlight.js/wiki/security
+The element with unescaped HTML:
+...
+&lt;/code>&lt;/pre>
+&lt;p>調べてたら強調されているコードを再強調すると Warning が表示されるらしい。&lt;/p>
+&lt;ul>
+&lt;li>参考: &lt;a href="https://github.com/highlightjs/highlight.js/issues/3761">Repeated highlighting of already highlighted code causes &amp;ldquo;&lt;em>One of your code blocks includes unescaped HTML. This is a potentially serious security risk.&lt;/em>&amp;rdquo;&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>実際にコンソールで &lt;code>hljs.highlightAll();&lt;/code> を叩いてみるとページ表示時と同じ箇所で Warning が表示されました。&lt;br>
+色々試して Highlight.js の読み込みを削除してもシンタックスハイライトが適用されていました。
+Hugo のドキュメントを見てみると Hugo 側で &lt;a href="https://gohugo.io/content-management/syntax-highlighting/#highlight-shortcode">Syntax highlighting&lt;/a> 機能を持っているようでした。&lt;/p></description></item><item><title>こだわりのないdotfiles</title><link>https://whalem.net/post/2024-08/my-dotfiles/</link><pubDate>Tue, 06 Aug 2024 22:18:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/my-dotfiles/</guid><description>&lt;p>利用している &lt;code>dotfiles&lt;/code> のリポジトリは非公開にしているので、&lt;code>dotfiles&lt;/code> の供養。&lt;br>
+シェルは &lt;code>zsh&lt;/code>、ターミナルは MacOS のデフォルトのターミナルを利用します。&lt;/p>
+&lt;h3 id="dotfiles">dotfiles&lt;/h3>
+&lt;p>ホームディレクトリに &lt;code>.dotfile&lt;/code> ディレクトリを作成して、以下のように設定ファイルを配置します。&lt;/p>
+&lt;pre>&lt;code>.dotfile
+├── .zsh
+│   ├── [plugin] zsh-autosuggestions
+│   ├── [plugin] zsh-syntax-highlighting
+│   ├── zsh-darwin.zsh
+│   ├── zsh-linux.zsh
+│   └── zsh-custom.zsh
+└── .zshrc
+&lt;/code>&lt;/pre>
+&lt;p>※実際は &lt;code>git clone&lt;/code> するだけです。&lt;/p>
+&lt;h4 id="環境別の設定">環境別の設定&lt;/h4>
+&lt;p>MacOS、Linux での使用を想定しているので &lt;code>.zshrc&lt;/code> に OS ごとの設定ファイルを読み込むように指定します。&lt;/p>
+&lt;pre>&lt;code class="language-zsh">case ${OSTYPE} in
+ darwin*)
+ source $HOME/.zsh/zsh-darwin.zsh
+ ;;
+ linux*)
+ source $HOME/.zsh/zsh-linux.zsh
+ ;;
+esac
+if [ -e $HOME/.zsh/zsh-custom.zsh ]; then
+ source $HOME/.zsh/zsh-custom.zsh
+fi
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>zsh-darwin.zsh&lt;/code> や &lt;code>zsh-linux.zsh&lt;/code> には &lt;code>LANG&lt;/code> などの環境変数や &lt;code>ls&lt;/code> の色の調整などを記述します。&lt;br>
+環境ごとの個別設定 (&lt;code>PATH&lt;/code>など) は &lt;code>zsh-custom.zsh&lt;/code> に書き込むと管理しやすいです。&lt;/p></description></item><item><title>ページネーションの修正</title><link>https://whalem.net/post/2024-08/fix-theme-pagination/</link><pubDate>Thu, 01 Aug 2024 21:48:27 +0900</pubDate><guid>https://whalem.net/post/2024-08/fix-theme-pagination/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/hugo-theme-yuki/commit/a68896df01a2e32293fe6b0396c81d442667b084">fix pagination&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="tags画面の修正">tags画面の修正&lt;/h2>
+&lt;p>&lt;a href="https://whalem.net/tags/">Tags&lt;/a> ページを見ていたらテーマを確認したところページネーションがうまくいっていないことを確認。&lt;br>
+下記の記述になっていました。&lt;/p>
+&lt;ul>
+&lt;li>layouts/_default/single.html&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-html">{{ range .Pages }}
+ &amp;lt;div class=&amp;quot;index-posts__list&amp;quot;&amp;gt;
+ &amp;lt;div class=&amp;quot;l-time&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Date.Format &amp;quot;2006.01.02 15:04&amp;quot; }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;div class=&amp;quot;l-title&amp;quot;&amp;gt;&amp;lt;a href=&amp;quot;{{.Permalink}}&amp;quot;&amp;gt;{{ .Title }}&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;
+ &amp;lt;/div&amp;gt;
+{{ end }}
+
+&amp;lt;div class=&amp;quot;index-paginate&amp;quot;&amp;gt;
+ {{ partial &amp;quot;pagination.html&amp;quot; . }}
+&amp;lt;/div&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>単純に &lt;a href="https://gohugo.io/templates/pagination/">Pagination&lt;/a> が使われていないのを確認、使うように修正。&lt;/p>
+&lt;pre>&lt;code class="language-diff">- {{ range .Pages }}
++ {{ range .Paginator.Pages }}
+&lt;/code>&lt;/pre>
+&lt;h2 id="ページネーションの修正">ページネーションの修正&lt;/h2>
+&lt;p>他におかしいところないかと大量に記事を追加して確認するとエラーが。。&lt;/p>
+&lt;pre>&lt;code class="language-shell">pagination.html:106:28&amp;quot;: execute of template failed at &amp;lt;$pag.Last.Permalink&amp;gt;: can’t evaluate field Permalink in type *page.Pager
+&lt;/code>&lt;/pre>
+&lt;p>&lt;a href="https://gohugo.io/templates/pagination/">Pagination&lt;/a> のドキュメントを眺めると &lt;code>.Last&lt;/code> はあるけど &lt;code>.Last.Permalink&lt;/code> については書かれていない。&lt;br>
+よく見るとドキュメントに&lt;a href="https://gohugo.io/methods/pager/last/">正しい書き方&lt;/a>があるのでそれに修正する。&lt;/p></description></item></channel></rss>

@@ -1,15 +1,55 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024-07 on Whale Mountain</title><link>https://whalem.net/tags/2024-07/</link><description>Recent content in 2024-07 on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Tue, 30 Jul 2024 22:34:46 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/2024-07/index.xml" rel="self" type="application/rss+xml"/><item><title>記事に更新時間の追加</title><link>https://whalem.net/post/2024-07/hugo-lastmod/</link><pubDate>Tue, 30 Jul 2024 22:12:49 +0900</pubDate><guid>https://whalem.net/post/2024-07/hugo-lastmod/</guid><description>個人的にブログの公開日と更新日があるとありがたい。なので Hugo のテーマをいじって更新日を表示する。
-テンプレートの修正 とりあえず公式サイトを調べると Lastmod が使えそう。
-Hugo テーマのテンプレートを操作して Edited on を追加する。
-{{ if ne .Date .Lastmod }} Edited on &amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;{{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }} {{ end }} とりあえず設定されている Date と更新時間が違うなら表示する。あと無理やり &amp;amp;ensp; で幅を調整。
-表示形式は Format を参考にする。
-補足 GitHub Actions でビルドして Lastmod を取得すると GitHub にプッシュした時間が取得されるので(多分)、必ず更新時間が表示されます。。。</description></item><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>久しぶりに更新 全然運用していなかったので、ブログを更新できるか確認していた。
-とりあえずやったことのメモ。
-Hugoの確認 GitHub Pages に移行したときの Hugo のバージョンは 0.83.0 だったけど、今は 0.129.0 になってた。
-とりあえずビルドできるか確認したら、エラーが。。
-parse failed: template: _default/list.html:4: function &amp;quot;sanitizeurl&amp;quot; not defined sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)
-baseUrl のシリアライズなので多分問題ないと思いたい。
-GitHub Actionsの更新 Yaml ファイルの中身を忘れているけど、まぁ使っているものは色々バージョンは上げとく。
-actions/checkout v2 &amp;gt; v4 peaceiris/actions-hugo v2 &amp;gt; v3 peaceiris/actions-gh-pages v3 &amp;gt; v4 あとはDeploy Keyの再設定
-GitHub Pages 用のリポジトリに Deploy keys を登録して、Markdown ファイルを置くリポジトリに Repository secrets を設定する。
-WhaleMountain.github.io Settings &amp;gt; Deploy kyes に公開鍵を登録 whalem Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets に秘密鍵を登録 鍵は 1Password で管理。あとはブログ更新しなくなったら Deploy keys の登録を削除する。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2024-07 on Whale Mountain</title><link>https://whalem.net/tags/2024-07/</link><description>Recent content in 2024-07 on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Tue, 30 Jul 2024 22:12:49 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/2024-07/index.xml" rel="self" type="application/rss+xml"/><item><title>記事に更新時間の追加</title><link>https://whalem.net/post/2024-07/hugo-lastmod/</link><pubDate>Tue, 30 Jul 2024 22:12:49 +0900</pubDate><guid>https://whalem.net/post/2024-07/hugo-lastmod/</guid><description>&lt;p>個人的にブログの公開日と更新日があるとありがたい。なので Hugo のテーマをいじって更新日を表示する。&lt;/p>
+&lt;h2 id="テンプレートの修正">テンプレートの修正&lt;/h2>
+&lt;p>とりあえず公式サイトを調べると &lt;a href="https://gohugo.io/methods/page/lastmod/">Lastmod&lt;/a> が使えそう。&lt;/p>
+&lt;p>Hugo テーマのテンプレートを操作して &lt;code>Edited on&lt;/code> を追加する。&lt;/p>
+&lt;pre>&lt;code class="language-html">{{ if ne .Date .Lastmod }}
+ Edited on &amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;{{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }}
+{{ end }}
+&lt;/code>&lt;/pre>
+&lt;p>とりあえず設定されている &lt;code>Date&lt;/code> と更新時間が違うなら表示する。あと無理やり &lt;code>&amp;amp;ensp;&lt;/code> で幅を調整。&lt;br>
+表示形式は &lt;a href="https://gohugo.io/methods/time/format/">Format&lt;/a> を参考にする。&lt;/p>
+&lt;h2 id="補足">補足&lt;/h2>
+&lt;p>GitHub Actions でビルドして Lastmod を取得すると GitHub にプッシュした時間が取得されるので(多分)、必ず更新時間が表示されます。。。&lt;/p></description></item><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>&lt;h2 id="久しぶりに更新">久しぶりに更新&lt;/h2>
+&lt;p>全然運用していなかったので、ブログを更新できるか確認していた。&lt;br>
+とりあえずやったことのメモ。&lt;/p>
+&lt;h2 id="hugoの確認">Hugoの確認&lt;/h2>
+&lt;p>GitHub Pages に移行したときの Hugo のバージョンは &lt;code>0.83.0&lt;/code> だったけど、今は &lt;code>0.129.0&lt;/code> になってた。&lt;br>
+とりあえずビルドできるか確認したら、エラーが。。&lt;/p>
+&lt;pre>&lt;code class="language-shell"> parse failed: template: _default/list.html:4: function &amp;quot;sanitizeurl&amp;quot; not defined
+&lt;/code>&lt;/pre>
+&lt;p>sanitizeurl がないとのことで代わりのもの探したけどぱっと見見つけられないので、一旦削除で対応 (そんなんでいいのか)&lt;br>
+baseUrl のシリアライズなので多分問題ないと思いたい。&lt;/p>
+&lt;h2 id="github-actionsの更新">GitHub Actionsの更新&lt;/h2>
+&lt;p>Yaml ファイルの中身を忘れているけど、まぁ使っているものは色々バージョンは上げとく。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/actions/checkout">actions/checkout&lt;/a>
+&lt;ul>
+&lt;li>v2 &amp;gt; v4&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://github.com/peaceiris/actions-hugo">peaceiris/actions-hugo&lt;/a>
+&lt;ul>
+&lt;li>v2 &amp;gt; v3&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://github.com/peaceiris/actions-gh-pages">peaceiris/actions-gh-pages&lt;/a>
+&lt;ul>
+&lt;li>v3 &amp;gt; v4&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>あとはDeploy Keyの再設定&lt;br>
+GitHub Pages 用のリポジトリに &lt;a href="https://docs.github.com/ja/authentication/connecting-to-github-with-ssh/managing-deploy-keys">Deploy keys&lt;/a> を登録して、Markdown ファイルを置くリポジトリに Repository secrets を設定する。&lt;/p>
+&lt;ul>
+&lt;li>WhaleMountain.github.io
+&lt;ul>
+&lt;li>&lt;code>Settings &amp;gt; Deploy kyes&lt;/code> に公開鍵を登録&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>whalem
+&lt;ul>
+&lt;li>&lt;code>Settings &amp;gt; Secrets and variables &amp;gt; Repository secrets&lt;/code> に秘密鍵を登録&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>鍵は 1Password で管理。あとはブログ更新しなくなったら Deploy keys の登録を削除する。&lt;/p></description></item></channel></rss>

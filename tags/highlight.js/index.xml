@@ -1,8 +1,36 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Highlight.js on Whale Mountain</title><link>https://whalem.net/tags/highlight.js/</link><description>Recent content in Highlight.js on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 12 Aug 2024 20:50:07 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/highlight.js/index.xml" rel="self" type="application/rss+xml"/><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>下記コミットの内容についての記事です。
-update submodule and config.toml update highlightjs リンクの変更 テーマで使用されていた Highlight.js のバージョンが v9.13.1 でした。
-脆弱性の報告もあるのでバージョンを上げようと思いました。
-参考: highlight.js@9.13.1 vulnerabilities 公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。
-- &amp;lt;script src=&amp;quot;{{ &amp;quot;js/highlight.min.js&amp;quot; | absURL }}&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; + &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; あとは initHighlightingOnLoad が非推奨になっているので、ドキュメント通りに変更する。
-Deprecated API - &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt; + &amp;lt;script&amp;gt;hljs.highlightAll();&amp;lt;/script&amp;gt; エラーの修正 これで終わりかなと思ったらコンソールに下記 Warning が。。
-One of your code blocks includes unescaped HTML. This is a potentially serious security risk. https://github.com/highlightjs/highlight.js/wiki/security The element with unescaped HTML: ... 調べてたら強調されているコードを再強調すると Warning が表示されるらしい。
-参考: Repeated highlighting of already highlighted code causes &amp;ldquo;One of your code blocks includes unescaped HTML.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Highlight.js on Whale Mountain</title><link>https://whalem.net/tags/highlight.js/</link><description>Recent content in Highlight.js on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 12 Aug 2024 19:38:41 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/highlight.js/index.xml" rel="self" type="application/rss+xml"/><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/whalem/commit/915fa2653faf452a911f054bc17ed8cbd372cdff">update submodule and config.toml&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/WhaleMountain/hugo-theme-yuki/commit/e00767e95db6532b5cb5892f8627795c694c582d">update highlightjs&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="リンクの変更">リンクの変更&lt;/h3>
+&lt;p>テーマで使用されていた &lt;a href="https://highlightjs.org/">Highlight.js&lt;/a> のバージョンが &lt;code>v9.13.1&lt;/code> でした。&lt;br>
+脆弱性の報告もあるのでバージョンを上げようと思いました。&lt;/p>
+&lt;ul>
+&lt;li>参考: &lt;a href="https://security.snyk.io/package/npm/highlight.js/9.13.1">highlight.js@9.13.1 vulnerabilities&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>公式サイトからJSファイルをダウンロードしてファイルを更新してもいいけど、バージョンアップがしやすいようにCDNを利用します。&lt;/p>
+&lt;pre>&lt;code class="language-diff">- &amp;lt;script src=&amp;quot;{{ &amp;quot;js/highlight.min.js&amp;quot; | absURL }}&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
++ &amp;lt;script src=&amp;quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;p>あとは &lt;code>initHighlightingOnLoad&lt;/code> が非推奨になっているので、ドキュメント通りに変更する。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://highlightjs.readthedocs.io/en/latest/api.html?highlight=initHighlightingOnLoad#inithighlightingonload">Deprecated API&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-diff">- &amp;lt;script&amp;gt;hljs.initHighlightingOnLoad();&amp;lt;/script&amp;gt;
++ &amp;lt;script&amp;gt;hljs.highlightAll();&amp;lt;/script&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h3 id="エラーの修正">エラーの修正&lt;/h3>
+&lt;p>これで終わりかなと思ったらコンソールに下記 Warning が。。&lt;/p>
+&lt;pre>&lt;code class="language-console">One of your code blocks includes unescaped HTML. This is a potentially serious security risk.
+https://github.com/highlightjs/highlight.js/wiki/security
+The element with unescaped HTML:
+...
+&lt;/code>&lt;/pre>
+&lt;p>調べてたら強調されているコードを再強調すると Warning が表示されるらしい。&lt;/p>
+&lt;ul>
+&lt;li>参考: &lt;a href="https://github.com/highlightjs/highlight.js/issues/3761">Repeated highlighting of already highlighted code causes &amp;ldquo;&lt;em>One of your code blocks includes unescaped HTML. This is a potentially serious security risk.&lt;/em>&amp;rdquo;&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>実際にコンソールで &lt;code>hljs.highlightAll();&lt;/code> を叩いてみるとページ表示時と同じ箇所で Warning が表示されました。&lt;br>
+色々試して Highlight.js の読み込みを削除してもシンタックスハイライトが適用されていました。
+Hugo のドキュメントを見てみると Hugo 側で &lt;a href="https://gohugo.io/content-management/syntax-highlighting/#highlight-shortcode">Syntax highlighting&lt;/a> 機能を持っているようでした。&lt;/p></description></item></channel></rss>

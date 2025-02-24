@@ -1,14 +1,111 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Raspberry Pi on Whale Mountain</title><link>https://whalem.net/tags/raspberry-pi/</link><description>Recent content in Raspberry Pi on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sat, 17 Aug 2024 17:27:15 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml"/><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。
-使用環境 Raspberry Pi 3B+ (多分) SDカードにイメージを書き込む Raspberry Pi Imager を利用して microSDカードにイメージを書き込みます。
-GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。簡単！！
-sudoの初期設定 デフォルトだと sudo の実行にパスワードが要求されない。sudoers.d 内にあるファイルを確認すると NOPASSWD が設定されている。
-デフォルトの設定 $ sudo cat /etc/sudoers.d/010_pi-nopasswd [ユーザー] ALL=(ALL) NOPASSWD: ALL 対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)
-$ sudo rm /etc/sudoers.d/010_pi-nopasswd 無線関連の設定 有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。
-/boot/overlays/README を見てフラグを確認して下記ファイルに書き込む。
-/boot/firmware/config.txt dtoverlay=disable-bt dtoverlay=disable-wifi 再起動後に ip a で wlan0 が表示されないことを確認する。
-IPアドレスの設定 Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。
-参考: Raspberry Pi OS のネットワーク設定 $ sudo nmcli connection modify 'Wired connection 1' ipv4.</description></item><item><title>Raspberry PiにDocker環境のインストール</title><link>https://whalem.net/post/2021-03/docker-on-raspberrypi/</link><pubDate>Sat, 13 Mar 2021 00:50:55 +0900</pubDate><guid>https://whalem.net/post/2021-03/docker-on-raspberrypi/</guid><description>Dockerのインストール 公式ドキュメントに従っても良いが、インストール用のスクリプトがあるのでそれを使う。
-$ curl -fsSL https://get.docker.com -o install-docker.sh $ sh ./install-docker.sh 簡単だね。
-docker-composeのインストール docker-composeのリポジトリのリリースにはarm用のバイナリはないので、ソースからビルドを行う。
-$ git clone https://github.com/docker/compose.git $ cd compose $ git checkout 1.27.4 $ ./script/build/linux しばし待つ。dist下にバイナリが吐かれていれば成功。あとは、/usr/local/binにコピって終了。
-$ ls dist/ docker-compose-linux-aarch64 $ cp dist/dockeer-compose /usr/local/bin/docker-compose $ chown root:root /usr/local/bin/docker-compose $ chmod 755 /usr/local/bin/docker-compose $ docker-compose version docker-compose version 1.27.4, build 40524192 docker-py version: 4.3.1 CPython version: 3.7.7 OpenSSL version: OpenSSL 1.1.0l 10 Sep 2019 Version 1.28.x からビルド時のDockerfileとscript/build/linuxの中身が変わり、今回の環境ではバイナリが吐かれなかった。ビルドは成功してるのにね。面倒なので1.27.4を使用する。</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Raspberry Pi on Whale Mountain</title><link>https://whalem.net/tags/raspberry-pi/</link><description>Recent content in Raspberry Pi on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 24 Feb 2025 21:03:34 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/raspberry-pi/index.xml" rel="self" type="application/rss+xml"/><item><title>AdGuard Homeの導入</title><link>https://whalem.net/post/2025-02/adgurd-home-setup/</link><pubDate>Mon, 24 Feb 2025 21:03:34 +0900</pubDate><guid>https://whalem.net/post/2025-02/adgurd-home-setup/</guid><description>&lt;p>Raspberry PiにAdGuard Homeを導入したので設定内容をまとめる。&lt;/p>
+&lt;ul>
+&lt;li>使用環境
+&lt;ul>
+&lt;li>Raspberry Pi 3B+ (多分)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="adguard-homeの起動">AdGuard Homeの起動&lt;/h3>
+&lt;p>Docker を使って Adguard Home を起動します。&lt;br>
+作業用のディレクトリを作成し、&lt;code>compose.yaml&lt;/code>を作成します。ポートは利用すもののみ設定します。&lt;/p>
+&lt;pre>&lt;code class="language-yaml">services:
+ adgaurd:
+ container_name: &amp;quot;adguard-home&amp;quot;
+ image: adguard/adguardhome:v0.107.57
+ restart: always
+ volumes:
+ - ./work:/opt/adguardhome/work
+ - ./conf:/opt/adguardhome/conf
+ ports:
+ - &amp;quot;53:53/tcp&amp;quot;
+ - &amp;quot;53:53/udp&amp;quot;
+ - &amp;quot;80:80/tcp&amp;quot;
+&lt;/code>&lt;/pre>
+&lt;h3 id="ダッシュボードにアクセス">ダッシュボードにアクセス&lt;/h3>
+&lt;p>ブラウザから Adguard Home のダッシュボードにアクセスします。&lt;code>http://ラズパイのHost名.local&lt;/code> を開きパスワード等を設定します。&lt;br>
+設定 &amp;gt; DNS設定 &amp;gt; アップストリームDNSサーバー に &lt;code>8.8.8.8&lt;/code> など好みのDNSを設定します。&lt;/p>
+&lt;ul>
+&lt;li>設定例&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-txt">8.8.8.8
+8.8.4.4
+1.1.1.1
+1.0.0.1
+2001:4860:4860::8888
+2001:4860:4860::8844
+2606:4700:4700::1111
+2606:4700:4700::1001
+https://dns10.quad9.net/dns-query
+https://cloudflare-dns.com/dns-query
+&lt;/code>&lt;/pre>
+&lt;p>あとは好みの設定をしたら終わりです。&lt;/p>
+&lt;h3 id="dnsの設定">DNSの設定&lt;/h3>
+&lt;p>ダッシュボードのセットアップガイドではコンテナ内のIPが表示されるので、ラズパイ側のIPを &lt;code>ip a&lt;/code> などで確認します。&lt;br>
+スマホやPCなどのDNS設定をするか、ルーターにDNS設定して利用してください。&lt;/p></description></item><item><title>Raspberry Piの初期設定</title><link>https://whalem.net/post/2024-08/raspi-init-setup/</link><pubDate>Sat, 17 Aug 2024 16:07:50 +0900</pubDate><guid>https://whalem.net/post/2024-08/raspi-init-setup/</guid><description>&lt;p>久しぶりにRaspberry Piを使おうと思ったが初期設定を色々忘れていたので、よく利用する箇所をまとめる。&lt;/p>
+&lt;ul>
+&lt;li>使用環境
+&lt;ul>
+&lt;li>Raspberry Pi 3B+ (多分)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sdカードにイメージを書き込む">SDカードにイメージを書き込む&lt;/h3>
+&lt;p>&lt;a href="https://www.raspberrypi.com/software/">Raspberry Pi Imager&lt;/a> を利用して microSDカードにイメージを書き込みます。&lt;br>
+GUI は利用しないので Raspberry Pi OS (other) から lite を選択する。あとは初期ユーザー、SSHを有効にして書き込んで終わり。簡単！！&lt;/p>
+&lt;h3 id="sudoの初期設定">sudoの初期設定&lt;/h3>
+&lt;p>デフォルトだと sudo の実行にパスワードが要求されない。&lt;code>sudoers.d&lt;/code> 内にあるファイルを確認すると &lt;code>NOPASSWD&lt;/code> が設定されている。&lt;/p>
+&lt;ul>
+&lt;li>デフォルトの設定&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-shell">$ sudo cat /etc/sudoers.d/010_pi-nopasswd 
+[ユーザー] ALL=(ALL) NOPASSWD: ALL
+&lt;/code>&lt;/pre>
+&lt;p>対象のファイルを削除して終わり。(中身の書き換えでも良さそう、好みで。)&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ sudo rm /etc/sudoers.d/010_pi-nopasswd
+&lt;/code>&lt;/pre>
+&lt;h3 id="無線関連の設定">無線関連の設定&lt;/h3>
+&lt;p>有線で利用することが多いので Wi-Fi は無効にする。あと Bluetooth も利用しないので無効にする。&lt;br>
+&lt;code>/boot/overlays/README&lt;/code> を見てフラグを確認して下記ファイルに書き込む。&lt;/p>
+&lt;ul>
+&lt;li>/boot/firmware/config.txt&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code>dtoverlay=disable-bt
+dtoverlay=disable-wifi
+&lt;/code>&lt;/pre>
+&lt;p>再起動後に &lt;code>ip a&lt;/code> で &lt;code>wlan0&lt;/code> が表示されないことを確認する。&lt;/p>
+&lt;h3 id="ipアドレスの設定">IPアドレスの設定&lt;/h3>
+&lt;p>Raspberry Pi OS 12(Bookworm) から NetworkManager で設定するらしい。下記サイトを参考にIPアドレスを固定しました。&lt;/p></description></item><item><title>Raspberry PiにDocker環境のインストール</title><link>https://whalem.net/post/2021-03/docker-on-raspberrypi/</link><pubDate>Sat, 13 Mar 2021 00:50:55 +0900</pubDate><guid>https://whalem.net/post/2021-03/docker-on-raspberrypi/</guid><description>&lt;h2 id="dockerのインストール">Dockerのインストール&lt;/h2>
+&lt;p>&lt;a href="https://docs.docker.com/engine/install/debian/">公式ドキュメント&lt;/a>に従っても良いが、インストール用のスクリプトがあるのでそれを使う。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ curl -fsSL https://get.docker.com -o install-docker.sh
+
+$ sh ./install-docker.sh
+&lt;/code>&lt;/pre>
+&lt;p>簡単だね。&lt;/p>
+&lt;h2 id="docker-composeのインストール">docker-composeのインストール&lt;/h2>
+&lt;p>docker-composeの&lt;a href="https://github.com/docker/compose.git">リポジトリ&lt;/a>のリリースにはarm用のバイナリはないので、ソースからビルドを行う。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ git clone https://github.com/docker/compose.git
+
+$ cd compose
+
+$ git checkout 1.27.4
+
+$ ./script/build/linux
+&lt;/code>&lt;/pre>
+&lt;p>しばし待つ。&lt;code>dist&lt;/code>下にバイナリが吐かれていれば成功。あとは、&lt;code>/usr/local/bin&lt;/code>にコピって終了。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ ls dist/
+docker-compose-linux-aarch64
+
+$ cp dist/dockeer-compose /usr/local/bin/docker-compose
+
+$ chown root:root /usr/local/bin/docker-compose
+
+$ chmod 755 /usr/local/bin/docker-compose
+
+$ docker-compose version
+docker-compose version 1.27.4, build 40524192
+docker-py version: 4.3.1
+CPython version: 3.7.7
+OpenSSL version: OpenSSL 1.1.0l 10 Sep 2019
+&lt;/code>&lt;/pre>
+&lt;p>Version 1.28.x からビルド時の&lt;code>Dockerfile&lt;/code>と&lt;code>script/build/linux&lt;/code>の中身が変わり、今回の環境ではバイナリが吐かれなかった。ビルドは成功してるのにね。面倒なので1.27.4を使用する。&lt;/p></description></item></channel></rss>

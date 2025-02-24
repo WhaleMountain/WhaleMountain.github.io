@@ -1,3 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dockerfile on Whale Mountain</title><link>https://whalem.net/tags/dockerfile/</link><description>Recent content in Dockerfile on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sun, 11 Aug 2024 23:35:49 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/dockerfile/index.xml" rel="self" type="application/rss+xml"/><item><title>Dockerfileのよく忘れる部分のメモ</title><link>https://whalem.net/post/2021-03/dockerfile-memo/</link><pubDate>Sun, 14 Mar 2021 13:13:16 +0900</pubDate><guid>https://whalem.net/post/2021-03/dockerfile-memo/</guid><description>DEBIAN_FRONTEND apt install時にインタラクティブな表示を無効にする。
-RUN DEBIAN_FRONTEND=noninteractive \ apt-get install -y Multi-Stage Build Multi-StageでCOPYする時の指定の仕方。
-FROM golang:rc-alpine3.12 AS build FROM alpine:3.12 COPY --from=build /tmp/main /tmp/</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dockerfile on Whale Mountain</title><link>https://whalem.net/tags/dockerfile/</link><description>Recent content in Dockerfile on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sun, 14 Mar 2021 13:13:16 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/dockerfile/index.xml" rel="self" type="application/rss+xml"/><item><title>Dockerfileのよく忘れる部分のメモ</title><link>https://whalem.net/post/2021-03/dockerfile-memo/</link><pubDate>Sun, 14 Mar 2021 13:13:16 +0900</pubDate><guid>https://whalem.net/post/2021-03/dockerfile-memo/</guid><description>&lt;h4 id="debian_frontend">DEBIAN_FRONTEND&lt;/h4>
+&lt;p>&lt;code>apt install&lt;/code>時にインタラクティブな表示を無効にする。&lt;/p>
+&lt;pre>&lt;code>RUN DEBIAN_FRONTEND=noninteractive \
+ apt-get install -y
+&lt;/code>&lt;/pre>
+&lt;h4 id="multi-stage-build">Multi-Stage Build&lt;/h4>
+&lt;p>&lt;a href="https://docs.docker.com/develop/develop-images/multistage-build/">Multi-Stage&lt;/a>で&lt;code>COPY&lt;/code>する時の指定の仕方。&lt;/p>
+&lt;pre>&lt;code>FROM golang:rc-alpine3.12 AS build
+
+FROM alpine:3.12
+COPY --from=build /tmp/main /tmp/
+&lt;/code>&lt;/pre></description></item></channel></rss>

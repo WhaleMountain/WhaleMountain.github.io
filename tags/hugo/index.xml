@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on Whale Mountain</title><link>https://whalem.net/tags/hugo/</link><description>Recent content in Hugo on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 12 Aug 2024 22:49:14 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hugo on Whale Mountain</title><link>https://whalem.net/tags/hugo/</link><description>Recent content in Hugo on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Thu, 20 Mar 2025 21:02:14 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/hugo/index.xml" rel="self" type="application/rss+xml"/><item><title>Highlight.jsのアップデート</title><link>https://whalem.net/post/2024-08/update-highlightjs/</link><pubDate>Mon, 12 Aug 2024 19:38:41 +0900</pubDate><guid>https://whalem.net/post/2024-08/update-highlightjs/</guid><description>&lt;p>下記コミットの内容についての記事です。&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://github.com/WhaleMountain/whalem/commit/915fa2653faf452a911f054bc17ed8cbd372cdff">update submodule and config.toml&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://github.com/WhaleMountain/hugo-theme-yuki/commit/e00767e95db6532b5cb5892f8627795c694c582d">update highlightjs&lt;/a>&lt;/li>
@@ -68,10 +68,10 @@ Hugo のドキュメントを見てみると Hugo 側で &lt;a href="https://goh
 &lt;p>とりあえず公式サイトを調べると &lt;a href="https://gohugo.io/methods/page/lastmod/">Lastmod&lt;/a> が使えそう。&lt;/p>
 &lt;p>Hugo テーマのテンプレートを操作して &lt;code>Edited on&lt;/code> を追加する。&lt;/p>
 &lt;pre>&lt;code class="language-html">{{ if ne .Date .Lastmod }}
- Edited on &amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;{{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }}
+ Edited on {{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }}
 {{ end }}
 &lt;/code>&lt;/pre>
-&lt;p>とりあえず設定されている &lt;code>Date&lt;/code> と更新時間が違うなら表示する。あと無理やり &lt;code>&amp;amp;ensp;&lt;/code> で幅を調整。&lt;br>
+&lt;p>とりあえず設定されている &lt;code>Date&lt;/code> と更新時間が違うなら表示する。&lt;del>あと無理やり &lt;code>&amp;amp;ensp;&lt;/code> で幅を調整。&lt;/del>&lt;br>
 表示形式は &lt;a href="https://gohugo.io/methods/time/format/">Format&lt;/a> を参考にする。&lt;/p>
 &lt;h2 id="補足">補足&lt;/h2>
 &lt;p>GitHub Actions でビルドして Lastmod を取得すると GitHub にプッシュした時間が取得されるので(多分)、必ず更新時間が表示されます。。。&lt;/p></description></item><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>&lt;h2 id="久しぶりに更新">久しぶりに更新&lt;/h2>

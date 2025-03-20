@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Whale Mountain</title><link>https://whalem.net/post/</link><description>Recent content in Posts on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 24 Feb 2025 21:31:19 +0900</lastBuildDate><atom:link href="https://whalem.net/post/index.xml" rel="self" type="application/rss+xml"/><item><title>AdGuard Homeの導入</title><link>https://whalem.net/post/2025-02/adgurd-home-setup/</link><pubDate>Mon, 24 Feb 2025 21:03:34 +0900</pubDate><guid>https://whalem.net/post/2025-02/adgurd-home-setup/</guid><description>&lt;p>Raspberry PiにAdGuard Homeを導入したので設定内容をまとめる。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Whale Mountain</title><link>https://whalem.net/post/</link><description>Recent content in Posts on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Thu, 20 Mar 2025 21:02:14 +0900</lastBuildDate><atom:link href="https://whalem.net/post/index.xml" rel="self" type="application/rss+xml"/><item><title>AdGuard Homeの導入</title><link>https://whalem.net/post/2025-02/adgurd-home-setup/</link><pubDate>Mon, 24 Feb 2025 21:03:34 +0900</pubDate><guid>https://whalem.net/post/2025-02/adgurd-home-setup/</guid><description>&lt;p>Raspberry PiにAdGuard Homeを導入したので設定内容をまとめる。&lt;/p>
 &lt;ul>
 &lt;li>使用環境
 &lt;ul>
@@ -174,10 +174,10 @@ fi
 &lt;p>とりあえず公式サイトを調べると &lt;a href="https://gohugo.io/methods/page/lastmod/">Lastmod&lt;/a> が使えそう。&lt;/p>
 &lt;p>Hugo テーマのテンプレートを操作して &lt;code>Edited on&lt;/code> を追加する。&lt;/p>
 &lt;pre>&lt;code class="language-html">{{ if ne .Date .Lastmod }}
- Edited on &amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;&amp;amp;ensp;{{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }}
+ Edited on {{ .Lastmod.Format &amp;quot;2006.01.02 15:04&amp;quot; }}
 {{ end }}
 &lt;/code>&lt;/pre>
-&lt;p>とりあえず設定されている &lt;code>Date&lt;/code> と更新時間が違うなら表示する。あと無理やり &lt;code>&amp;amp;ensp;&lt;/code> で幅を調整。&lt;br>
+&lt;p>とりあえず設定されている &lt;code>Date&lt;/code> と更新時間が違うなら表示する。&lt;del>あと無理やり &lt;code>&amp;amp;ensp;&lt;/code> で幅を調整。&lt;/del>&lt;br>
 表示形式は &lt;a href="https://gohugo.io/methods/time/format/">Format&lt;/a> を参考にする。&lt;/p>
 &lt;h2 id="補足">補足&lt;/h2>
 &lt;p>GitHub Actions でビルドして Lastmod を取得すると GitHub にプッシュした時間が取得されるので(多分)、必ず更新時間が表示されます。。。&lt;/p></description></item><item><title>久しぶりに更新</title><link>https://whalem.net/post/2024-07/long-time-no-see/</link><pubDate>Sun, 28 Jul 2024 16:55:43 +0900</pubDate><guid>https://whalem.net/post/2024-07/long-time-no-see/</guid><description>&lt;h2 id="久しぶりに更新">久しぶりに更新&lt;/h2>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on Whale Mountain</title><link>https://whalem.net/tags/windows/</link><description>Recent content in Windows on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sun, 06 Apr 2025 15:58:44 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>新しいPCのセットアップ</title><link>https://whalem.net/post/2025-04/pc-setup/</link><pubDate>Sun, 06 Apr 2025 15:11:36 +0900</pubDate><guid>https://whalem.net/post/2025-04/pc-setup/</guid><description>&lt;p>新しくWindows PCを購入したので環境構築でやったことを軽くメモする。&lt;/p>
+&lt;ul>
+&lt;li>使用環境
+&lt;ul>
+&lt;li>Vivobook S14 M5406WA&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>全て載せるのは面倒なので忘れやすそうなもののみ雑にまとめる。&lt;/p>
+&lt;h1 id="デバイス関連">デバイス関連&lt;/h1>
+&lt;h3 id="jisus配列の設定">JIS/US配列の設定&lt;/h3>
+&lt;p>ノートPCのキーボードはJIS配列、Bluetoothで繋ぐ外付けキーボードはUS配列なのでそのまま使うとJIS配列になる。&lt;br>
+下記サイトを参考に設定する。感謝!!&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://zenn.dev/kakuhito/articles/d27128d0b62098">外付けUSキーボードと内蔵JISキーボードを共存させたい(Win10/11)&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Windowsの設定を開き &lt;code>時刻と言語 &amp;gt; 言語と地域 &amp;gt; 日本語の(・・・)メニュー &amp;gt; 言語のオプション &amp;gt; キーボード &amp;gt; レイアウトを変更する &amp;gt; 接続済みキーボード レイアウトを使用する &amp;gt; OK&lt;/code> を押す。&lt;/p>
+&lt;p>(本当はこれだけで設定できたら嬉しい)&lt;br>
+このままでは内臓キーボードもUS配列で認識されるので、サイトを参考に &lt;code>.reg&lt;/code> ファイルを作成してレジストリに値を追加する。&lt;br>
+インスタンスパスはデバイスマネージャーの「標準 PS/2 キーボード」で問題なく設定できました。&lt;/p>
+&lt;h3 id="ctrl2cap">Ctrl2Cap&lt;/h3>
+&lt;p>&lt;em>&lt;strong>これが一番重要!!かも&lt;/strong>&lt;/em>&lt;/p>
+&lt;p>MicrosoftのページからCtrl2Cap v3.0をダウンロードする。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/ja-jp/sysinternals/downloads/ctrl2cap">Ctrl2Cap v3.0&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>ダウンロードしたzipファイルを展開して、Windows Terminalを管理者モードで開く。&lt;br>
+PowerShellで展開したフォルダの場所まで移動して、インストールコマンドを叩いたらPCを再起動する。&lt;/p>
+&lt;pre>&lt;code class="language-shell">.\ctrl2cap.exe /install
+&lt;/code>&lt;/pre>
+&lt;p>平穏が訪れる。&lt;/p>
+&lt;hr>
+&lt;h1 id="ソフトウェア関連">ソフトウェア関連&lt;/h1>
+&lt;h3 id="wsl2の導入">WSL2の導入&lt;/h3>
+&lt;p>Microsoftのページに従ってPowerShellからインストール。デフォルトでUbuntu24.04がインストールされました。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://learn.microsoft.com/ja-jp/windows/wsl/install">WSL を使用して Windows に Linux をインストールする方法&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-shell">wsl --install
+&lt;/code>&lt;/pre>
+&lt;h3 id="rancher-desktop">Rancher Desktop&lt;/h3>
+&lt;p>Docker Desktopでもいいが、使ったことがなかったのでRancher Desktopを導入しました。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.rancherdesktop.io/getting-started/installation/#installing-rancher-desktop-on-windows">Installing Rancher Desktop on Windows&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>公式サイトに従ってインストール後、起動し &lt;code>Preferences &amp;gt; WSL &amp;gt; Ubuntu&lt;/code> にチェックを入れ &lt;code>Apply&lt;/code> で反映する。&lt;br>
+あとはWSL2のUbuntuから&lt;code>docker&lt;/code>コマンドを使用できる。特に設定もなく&lt;code>docker compose&lt;/code>も利用でき、今のところ不便はなさそう。&lt;/p></description></item></channel></rss>

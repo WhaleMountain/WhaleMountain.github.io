@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on Whale Mountain</title><link>https://whalem.net/tags/windows/</link><description>Recent content in Windows on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sun, 06 Apr 2025 15:58:44 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>新しいPCのセットアップ</title><link>https://whalem.net/post/2025-04/pc-setup/</link><pubDate>Sun, 06 Apr 2025 15:11:36 +0900</pubDate><guid>https://whalem.net/post/2025-04/pc-setup/</guid><description>&lt;p>新しくWindows PCを購入したので環境構築でやったことを軽くメモする。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on Whale Mountain</title><link>https://whalem.net/tags/windows/</link><description>Recent content in Windows on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 07 Apr 2025 20:29:00 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>新しいPCのセットアップ</title><link>https://whalem.net/post/2025-04/pc-setup/</link><pubDate>Sun, 06 Apr 2025 15:11:36 +0900</pubDate><guid>https://whalem.net/post/2025-04/pc-setup/</guid><description>&lt;p>新しくWindows PCを購入したので環境構築でやったことを軽くメモする。&lt;/p>
 &lt;ul>
 &lt;li>使用環境
 &lt;ul>
@@ -38,10 +38,10 @@ PowerShellで展開したフォルダの場所まで移動して、インスト�
 &lt;/ul>
 &lt;pre>&lt;code class="language-shell">wsl --install
 &lt;/code>&lt;/pre>
-&lt;h3 id="rancher-desktop">Rancher Desktop&lt;/h3>
-&lt;p>Docker Desktopでもいいが、使ったことがなかったのでRancher Desktopを導入しました。&lt;/p>
+&lt;h3 id="rancher-desktop-docker-desktop">&lt;del>Rancher Desktop&lt;/del> Docker Desktop&lt;/h3>
+&lt;p>Docker Desktopでもいいが、&lt;del>使ったことがなかったのでRancher Desktopを導入しました。&lt;/del>&lt;/p>
 &lt;ul>
 &lt;li>&lt;a href="https://docs.rancherdesktop.io/getting-started/installation/#installing-rancher-desktop-on-windows">Installing Rancher Desktop on Windows&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>公式サイトに従ってインストール後、起動し &lt;code>Preferences &amp;gt; WSL &amp;gt; Ubuntu&lt;/code> にチェックを入れ &lt;code>Apply&lt;/code> で反映する。&lt;br>
-あとはWSL2のUbuntuから&lt;code>docker&lt;/code>コマンドを使用できる。特に設定もなく&lt;code>docker compose&lt;/code>も利用でき、今のところ不便はなさそう。&lt;/p></description></item></channel></rss>
+&lt;del>あとはWSL2のUbuntuから&lt;code>docker&lt;/code>コマンドを使用できる。特に設定もなく&lt;code>docker compose&lt;/code>も利用でき、今のところ不便はなさそう。&lt;/del>&lt;/p></description></item></channel></rss>

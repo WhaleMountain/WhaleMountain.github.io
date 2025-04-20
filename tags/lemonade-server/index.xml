@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Lemonade-Server on Whale Mountain</title><link>https://whalem.net/tags/lemonade-server/</link><description>Recent content in Lemonade-Server on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Sun, 20 Apr 2025 20:22:57 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/lemonade-server/index.xml" rel="self" type="application/rss+xml"/><item><title>Lemonade Serverの導入</title><link>https://whalem.net/post/2025-04/lemonade-server/</link><pubDate>Sun, 20 Apr 2025 19:50:50 +0900</pubDate><guid>https://whalem.net/post/2025-04/lemonade-server/</guid><description>&lt;p>新しく購入した PC の CPU である AMD Ryzen AI 9 HX 370 には NPU を使用するために &lt;a href="https://github.com/onnx/turnkeyml">Lemonade Server&lt;/a> を導入した時のメモです。&lt;/p>
+&lt;h2 id="lemonade-server">Lemonade Server&lt;/h2>
+&lt;p>最近 AMD から &lt;a href="https://github.com/amd/gaia">GAIA&lt;/a> という OSS で AMD Ryzen AI プロセッサの NPU を利用して生成 AI を動かせそうでした。&lt;br>
+その GAIA のバックエンドの Lemonade を導入することで VS Code の拡張機能からも利用できるとのことなので、Lemonade Server をインストールします。&lt;/p>
+&lt;h3 id="インストール">インストール&lt;/h3>
+&lt;p>GitHub の Releases からインストーラーをダウンロードしてインストールするだけです。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/onnx/turnkeyml/releases">https://github.com/onnx/turnkeyml/releases&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>インストール時にダウンロードするモデルも選択できました。NPU に対応した Hybrid のモデルがダウンロードできます。&lt;br>
+現在用意されているモデルは Huggingface で確認できます。&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://huggingface.co/amd">https://huggingface.co/amd&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="起動">起動&lt;/h3>
+&lt;p>デスクトップに作成される lemonade-server をクリックするだけです。 &lt;code>8000&lt;/code>ポートで立ち上がります。
+ダウンロードしたモデル一覧は下記にアクセスすると取得できました。&lt;/p>
+&lt;ul>
+&lt;li>http://localhost:8000/api/v0/models&lt;/li>
+&lt;/ul>
+&lt;p>追加でモデルダウンロードしたい時はどこからだろう&amp;hellip;？&lt;/p>
+&lt;h2 id="continueから使用する">Continueから使用する&lt;/h2>
+&lt;p>連携アプリの例にあった &lt;a href="https://www.continue.dev/">Continue&lt;/a> から今回利用してみます。
+流れは GitHub の examples の通りです。&lt;/p></description></item></channel></rss>

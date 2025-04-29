@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset=utf-8><title>Whale Mountain
+</title><meta name=viewport id=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href=https://whalem.net/images/wm.png><link rel=apple-touch-icon href=https://whalem.net/images/wm.png><link rel=stylesheet href=https://whalem.net/scss/style.css><link rel=stylesheet href=https://whalem.net/scss/monokai-sublime.min.css><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js></script><link rel=stylesheet href=https://whalem.net/scss/highlight.css><link rel=stylesheet href=https://whalem.net/scss/custom.css><meta name=generator content="Hugo 0.147.0"></head><body><div class=header><div class=site-logo__wrap><div id=site-button><div></div></div><div class=site-logo><a href=https://whalem.net/><img src=https://whalem.net/images/wm.png></a></div></div><div class='site-nav u-font' id=nav-bar><div class=site-nav__wrap><a class=site-nav__el href=/>HOME</a></div><div class=site-nav__wrap><a class=site-nav__el href=/post>POST</a></div><div class=site-nav__wrap><a class=site-nav__el href=/about>ABOUT</a></div><div class=site-nav__wrap><a class=site-nav__el href=/tags/>TAGS</a></div></div></div><div class=main><div class=main-content><div class=main-content__date><h4 id=date>Published on 2025.04.29 14:20</h4><h4 id=date>Edited on 2025.04.29 14:59</h4></div><div class=main-content__title><h1 id=title>Vscodeのキーバインド</h1></div><div class=main-content__article><article id=content><p>WindowsのVS Codeを利用するにあたりMacのターミナルみたいな動きをしたくなったので、Claude君にキーバインドを作成してもらった。</p><h3 id=キーバインド設定>キーバインド設定</h3><p><code>Ctrl+K Ctrl+S</code>でキーボードショートカットを開き、右上の「キーボードショートカット(JSON)」を押して <code>keybindings.json</code> を開きます。<br>後は下のJsonを貼り付けると以下のような設定になります。</p><ul><li>Ctrl+E<ul><li>カーソルを行末に移動</li></ul></li><li>Ctrl+A<ul><li>カーソルを行頭に移動する</li></ul></li><li>Ctrl+K<ul><li>カーソルの位置から行末までのテキストをすべて削除する</li></ul></li><li>Ctrl+F<ul><li>カーソルを右に1文字移動する</li></ul></li><li>Ctrl+B<ul><li>カーソルを左に1文字移動する</li></ul></li><li>Alt+Z<ul><li>操作を元に戻す</li></ul></li><li>Shift+Alt+Z<ul><li>元に戻した操作をやり直す</li></ul></li><li>Alt+A<ul><li>エディタ内のテキストをすべて選択する</li></ul></li><li>Alt+F<ul><li>検索機能を開く</li></ul></li></ul><pre><code class=language-json>[
+  {
+      &quot;key&quot;: &quot;ctrl+e&quot;,
+      &quot;command&quot;: &quot;cursorEnd&quot;,
+      &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+      &quot;key&quot;: &quot;ctrl+a&quot;,
+      &quot;command&quot;: &quot;cursorHome&quot;,
+      &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+      &quot;key&quot;: &quot;ctrl+k&quot;,
+      &quot;command&quot;: &quot;deleteAllRight&quot;,
+      &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+      &quot;key&quot;: &quot;alt+z&quot;,
+      &quot;command&quot;: &quot;undo&quot;,
+      &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+    &quot;key&quot;: &quot;shift+alt+z&quot;,
+    &quot;command&quot;: &quot;redo&quot;,
+    &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+    &quot;key&quot;: &quot;ctrl+f&quot;,
+    &quot;command&quot;: &quot;cursorRight&quot;,
+    &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+    &quot;key&quot;: &quot;ctrl+b&quot;,
+    &quot;command&quot;: &quot;cursorLeft&quot;,
+    &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+    &quot;key&quot;: &quot;alt+a&quot;,
+    &quot;command&quot;: &quot;editor.action.selectAll&quot;,
+    &quot;when&quot;: &quot;editorTextFocus&quot;
+  },
+  {
+    &quot;key&quot;: &quot;alt+f&quot;,
+    &quot;command&quot;: &quot;actions.find&quot;,
+    &quot;when&quot;: &quot;editorFocus || editorIsOpen&quot;
+  }
+]
+</code></pre><p>とりあえず、もともと<code>Ctrl</code>にあったものは<code>Alt</code>に割り当てる。ほかに不都合があれば<code>when</code>あたりを調整する</p></article></div><div class="main-content__tags u-font"><span><a href=https://whalem.net/tags/2025-04>2025-04</a></span>
+<span><a href=https://whalem.net/tags/windows>Windows</a></span>
+<span><a href=https://whalem.net/tags/vs-code>VS Code</a></span></div></div><div class=main-profile><div class=main-profile__avatar><img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4"></div><div class=main-profile__body><div class=main-profile__author><span>Whale Mountain</span></div><div class=main-profile__description><p>Tofu on fire :)</p></div></div></div><div class=main-line></div><div class=main-pn><a class=previous href=https://whalem.net/post/2025-04/lemonade-server/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2025.04.20 19:50</div><div class=pn-el__2>Lemonade Serverの導入</div></div></a></div></div><div class=footer><div class=copyright-wrap><p class="copyright u-font">© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</p></div></div></body><script src=https://whalem.net/js/page.js></script><script>hljs.highlightAll()</script>

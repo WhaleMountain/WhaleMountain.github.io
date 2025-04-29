@@ -1,4 +1,103 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on Whale Mountain</title><link>https://whalem.net/tags/windows/</link><description>Recent content in Windows on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Tue, 29 Apr 2025 14:18:10 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>Lemonade Serverの導入</title><link>https://whalem.net/post/2025-04/lemonade-server/</link><pubDate>Sun, 20 Apr 2025 19:50:50 +0900</pubDate><guid>https://whalem.net/post/2025-04/lemonade-server/</guid><description>&lt;p>新しく購入した PC の CPU である AMD Ryzen AI 9 HX 370 には NPU を使用するために &lt;a href="https://github.com/onnx/turnkeyml">Lemonade Server&lt;/a> を導入した時のメモです。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows on Whale Mountain</title><link>https://whalem.net/tags/windows/</link><description>Recent content in Windows on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Tue, 29 Apr 2025 14:59:29 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/windows/index.xml" rel="self" type="application/rss+xml"/><item><title>Vscodeのキーバインド</title><link>https://whalem.net/post/2025-04/vscode-keybind/</link><pubDate>Tue, 29 Apr 2025 14:20:57 +0900</pubDate><guid>https://whalem.net/post/2025-04/vscode-keybind/</guid><description>&lt;p>WindowsのVS Codeを利用するにあたりMacのターミナルみたいな動きをしたくなったので、Claude君にキーバインドを作成してもらった。&lt;/p>
+&lt;h3 id="キーバインド設定">キーバインド設定&lt;/h3>
+&lt;p>&lt;code>Ctrl+K Ctrl+S&lt;/code>でキーボードショートカットを開き、右上の「キーボードショートカット(JSON)」を押して &lt;code>keybindings.json&lt;/code> を開きます。&lt;br>
+後は下のJsonを貼り付けると以下のような設定になります。&lt;/p>
+&lt;ul>
+&lt;li>Ctrl+E
+&lt;ul>
+&lt;li>カーソルを行末に移動&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Ctrl+A
+&lt;ul>
+&lt;li>カーソルを行頭に移動する&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Ctrl+K
+&lt;ul>
+&lt;li>カーソルの位置から行末までのテキストをすべて削除する&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Ctrl+F
+&lt;ul>
+&lt;li>カーソルを右に1文字移動する&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Ctrl+B
+&lt;ul>
+&lt;li>カーソルを左に1文字移動する&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Alt+Z
+&lt;ul>
+&lt;li>操作を元に戻す&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Shift+Alt+Z
+&lt;ul>
+&lt;li>元に戻した操作をやり直す&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Alt+A
+&lt;ul>
+&lt;li>エディタ内のテキストをすべて選択する&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Alt+F
+&lt;ul>
+&lt;li>検索機能を開く&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;pre>&lt;code class="language-json">[
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;ctrl+e&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;cursorEnd&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;ctrl+a&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;cursorHome&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;ctrl+k&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;deleteAllRight&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;alt+z&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;undo&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;shift+alt+z&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;redo&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;ctrl+f&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;cursorRight&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;ctrl+b&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;cursorLeft&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;alt+a&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;editor.action.selectAll&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorTextFocus&amp;quot;
+ },
+ {
+ &amp;quot;key&amp;quot;: &amp;quot;alt+f&amp;quot;,
+ &amp;quot;command&amp;quot;: &amp;quot;actions.find&amp;quot;,
+ &amp;quot;when&amp;quot;: &amp;quot;editorFocus || editorIsOpen&amp;quot;
+ }
+]
+&lt;/code>&lt;/pre>
+&lt;p>とりあえず、もともと&lt;code>Ctrl&lt;/code>にあったものは&lt;code>Alt&lt;/code>に割り当てる。ほかに不都合があれば&lt;code>when&lt;/code>あたりを調整する&lt;/p></description></item><item><title>Lemonade Serverの導入</title><link>https://whalem.net/post/2025-04/lemonade-server/</link><pubDate>Sun, 20 Apr 2025 19:50:50 +0900</pubDate><guid>https://whalem.net/post/2025-04/lemonade-server/</guid><description>&lt;p>新しく購入した PC の CPU である AMD Ryzen AI 9 HX 370 には NPU を使用するために &lt;a href="https://github.com/onnx/turnkeyml">Lemonade Server&lt;/a> を導入した時のメモです。&lt;/p>
 &lt;h2 id="lemonade-server">Lemonade Server&lt;/h2>
 &lt;p>最近 AMD から &lt;a href="https://github.com/amd/gaia">GAIA&lt;/a> という OSS で AMD Ryzen AI プロセッサの NPU を利用して生成 AI を動かせそうでした。&lt;br>
 その GAIA のバックエンドの Lemonade を導入することで VS Code の拡張機能からも利用できるとのことなので、Lemonade Server をインストールします。&lt;/p>

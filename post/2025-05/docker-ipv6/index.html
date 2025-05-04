@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset=utf-8><title>Whale Mountain
+</title><meta name=viewport id=viewport content="width=device-width,initial-scale=1"><link rel=icon type=image/x-icon href=https://whalem.net/images/wm.png><link rel=apple-touch-icon href=https://whalem.net/images/wm.png><link rel=stylesheet href=https://whalem.net/scss/style.css><link rel=stylesheet href=https://whalem.net/scss/monokai-sublime.min.css><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js></script><link rel=stylesheet href=https://whalem.net/scss/highlight.css><link rel=stylesheet href=https://whalem.net/scss/custom.css><meta name=generator content="Hugo 0.147.1"></head><body><div class=header><div class=site-logo__wrap><div id=site-button><div></div></div><div class=site-logo><a href=https://whalem.net/><img src=https://whalem.net/images/wm.png></a></div></div><div class='site-nav u-font' id=nav-bar><div class=site-nav__wrap><a class=site-nav__el href=/>HOME</a></div><div class=site-nav__wrap><a class=site-nav__el href=/post>POST</a></div><div class=site-nav__wrap><a class=site-nav__el href=/about>ABOUT</a></div><div class=site-nav__wrap><a class=site-nav__el href=/tags/>TAGS</a></div></div></div><div class=main><div class=main-content><div class=main-content__date><h4 id=date>Published on 2025.05.05 00:04</h4><h4 id=date>Edited on 2025.05.05 00:25</h4></div><div class=main-content__title><h1 id=title>DockerのIpv6を有効にする</h1></div><div class=main-content__article><article id=content><p>Raspberry Piに<a href=../2025-02/adgurd-home-setup.md>AdGuard Homeの導入</a>を導入したが、IPv6のDNSを利用できなかったのでDockerのIPv6サポートを有効にする。</p><h3 id=ipv6サポートの有効化>IPv6サポートの有効化</h3><p>ほとんど公式通り</p><ul><li><a href=https://docs.docker.jp/config/daemon/ipv6.html>IPv6 サポートの有効化</a></li></ul><p><code>/etc/docker/daemon.json</code> に下記の内容を追加する。<code>daemon.json</code>がない場合は新規作成で大丈夫です。</p><pre><code class=language-json>{
+  &quot;ipv6&quot;: true,
+  &quot;fixed-cidr-v6&quot;: &quot;2001:db8:2::/64&quot;
+}
+</code></pre><p>Dockerを再起動する。</p><pre><code class=language-shell>$ systemctl reload docker.service
+</code></pre><p><code>ip a</code>でIPv6アドレスが降られているか確認できます。表示されなければ再起動したらよさそう。</p><pre><code>4: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default
+    link/ether be:bb:67:84:c8:22 brd ff:ff:ff:ff:ff:ff
+    inet 172.18.0.1/16 brd 172.18.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 2001:db8:2::1/64 scope global nodad
+       valid_lft forever preferred_lft forever
+</code></pre><h3 id=使い方>使い方</h3><p>IPv6が使えるようになったので<code>compose.yaml</code>の<code>networks</code>で明示的に宣言します。<br>下記のように設定してコンテナを落として作り直したらIPv6が使えるようになります。</p><pre><code class=language-yaml>services:
+  adgaurd:
+    container_name: &quot;adguard-home&quot;
+    image: adguard/adguardhome:v0.107.61
+    networks:
+      - adguard
+networks:
+  adguard:
+    enable_ipv6: true
+</code></pre></article></div><div class="main-content__tags u-font"><span><a href=https://whalem.net/tags/2025-05>2025-05</a></span>
+<span><a href=https://whalem.net/tags/docker>Docker</a></span></div></div><div class=main-profile><div class=main-profile__avatar><img src="https://avatars.githubusercontent.com/u/33239408?s=460&amp;u=e42f33454abd96a2add42e436aa64421a0591d00&amp;v=4"></div><div class=main-profile__body><div class=main-profile__author><span>Whale Mountain</span></div><div class=main-profile__description><p>Tofu on fire :)</p></div></div></div><div class=main-line></div><div class=main-pn><a class=previous href=https://whalem.net/post/2025-04/vscode-keybind/><div class=pn-dec></div><div class=pn-els><div class=pn-el__1>2025.04.29 14:20</div><div class=pn-el__2>VS Codeのキーバインド</div></div></a></div></div><div class=footer><div class=copyright-wrap><p class="copyright u-font">© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</p></div></div></body><script src=https://whalem.net/js/page.js></script><script>hljs.highlightAll()</script>

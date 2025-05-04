@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>2025-05 on Whale Mountain</title><link>https://whalem.net/tags/2025-05/</link><description>Recent content in 2025-05 on Whale Mountain</description><generator>Hugo</generator><language>jp</language><copyright>© 2021 Whale Mountain. Theme yuki. Powered by Hugo.</copyright><lastBuildDate>Mon, 05 May 2025 00:25:56 +0900</lastBuildDate><atom:link href="https://whalem.net/tags/2025-05/index.xml" rel="self" type="application/rss+xml"/><item><title>DockerのIpv6を有効にする</title><link>https://whalem.net/post/2025-05/docker-ipv6/</link><pubDate>Mon, 05 May 2025 00:04:44 +0900</pubDate><guid>https://whalem.net/post/2025-05/docker-ipv6/</guid><description>&lt;p>Raspberry Piに&lt;a href="../2025-02/adgurd-home-setup.md">AdGuard Homeの導入&lt;/a>を導入したが、IPv6のDNSを利用できなかったのでDockerのIPv6サポートを有効にする。&lt;/p>
+&lt;h3 id="ipv6サポートの有効化">IPv6サポートの有効化&lt;/h3>
+&lt;p>ほとんど公式通り&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://docs.docker.jp/config/daemon/ipv6.html">IPv6 サポートの有効化&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>/etc/docker/daemon.json&lt;/code> に下記の内容を追加する。&lt;code>daemon.json&lt;/code>がない場合は新規作成で大丈夫です。&lt;/p>
+&lt;pre>&lt;code class="language-json">{
+ &amp;quot;ipv6&amp;quot;: true,
+ &amp;quot;fixed-cidr-v6&amp;quot;: &amp;quot;2001:db8:2::/64&amp;quot;
+}
+&lt;/code>&lt;/pre>
+&lt;p>Dockerを再起動する。&lt;/p>
+&lt;pre>&lt;code class="language-shell">$ systemctl reload docker.service
+&lt;/code>&lt;/pre>
+&lt;p>&lt;code>ip a&lt;/code>でIPv6アドレスが降られているか確認できます。表示されなければ再起動したらよさそう。&lt;/p>
+&lt;pre>&lt;code>4: docker0: &amp;lt;NO-CARRIER,BROADCAST,MULTICAST,UP&amp;gt; mtu 1500 qdisc noqueue state DOWN group default
+ link/ether be:bb:67:84:c8:22 brd ff:ff:ff:ff:ff:ff
+ inet 172.18.0.1/16 brd 172.18.255.255 scope global docker0
+ valid_lft forever preferred_lft forever
+ inet6 2001:db8:2::1/64 scope global nodad
+ valid_lft forever preferred_lft forever
+&lt;/code>&lt;/pre>
+&lt;h3 id="使い方">使い方&lt;/h3>
+&lt;p>IPv6が使えるようになったので&lt;code>compose.yaml&lt;/code>の&lt;code>networks&lt;/code>で明示的に宣言します。&lt;br>
+下記のように設定してコンテナを落として作り直したらIPv6が使えるようになります。&lt;/p>
+&lt;pre>&lt;code class="language-yaml">services:
+ adgaurd:
+ container_name: &amp;quot;adguard-home&amp;quot;
+ image: adguard/adguardhome:v0.107.61
+ networks:
+ - adguard
+networks:
+ adguard:
+ enable_ipv6: true
+&lt;/code>&lt;/pre></description></item></channel></rss>
